@@ -1,0 +1,5 @@
+BasedOnStyle: LLVM
+Language: Cpp
+MaxEmptyLinesToKeep: 2
+ColumnLimit: 110
+NamespaceIndentation: All
