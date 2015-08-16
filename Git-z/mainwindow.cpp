@@ -30,7 +30,10 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   QObject::connect(ui->commitMessage, SIGNAL(returnPressed()), this, SLOT(onCommit()));
 
   QObject::connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(onRebase()));
+
   QObject::connect(ui->logViewButton, SIGNAL(clicked(bool)), this, SLOT(showLogView()));
+
+  emit ui->logViewButton->click();
 
   ui->indexView->setModel(&strlistModel);
 

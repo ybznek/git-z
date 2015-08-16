@@ -18,17 +18,8 @@ public:
   explicit LogView(Git& git, QWidget *parent = 0);
   ~LogView();
 
-protected slots:
-  void updateGraph(const GitLog *log) {
-      qDebug() << "mam novy graf";
-    for (const GitLogItem &item : *log) {
-      qDebug() << item.getCommitHash();
-    }
-  }
-public:
-  void updateLog(){
-      git.getLog();
-  }
+public slots:
+  void updateLog();
 
 private:
   Git& git;

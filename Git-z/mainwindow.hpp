@@ -34,7 +34,7 @@ protected slots:
   }
   void showLogView() {
       logView.setVisible(true);
-     emit logView.updateLog();
+     emit git.getLog();
   }
   void onBranchesUpdated(const GitBranchList &branchList);
   void fileListUpdated(const GitFileList &fileList);

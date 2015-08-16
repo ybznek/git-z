@@ -26,25 +26,26 @@ namespace gitz {
 
     void operator<<(const QString &str) {
         qDebug() << "Parsovani logu: " << str;
-      data = str;
       items.clear();
+      int lastPos = 0;
       while (true) {
-        int lastPos = data.indexOf(separator, lastPos);
+        lastPos = str.indexOf(separator, lastPos);
         if (lastPos == -1)
           break;
         lastPos += separator_length;
         qDebug() << "ITEM";
         GitLogItem &item = items.append();
+        parseLine(str,lastPos,item);
+      }
+    }
+
+    inline void parseLine(const QString & str, int& lastPos, GitLogItem& item) {
         for (int i = 0; i < GitLogItem::_max_items_; ++i) {
-          int newPos = data.indexOf(separator, lastPos);
-          QStringRef str = data.midRef(lastPos, newPos - lastPos );
-          qDebug() << str;
-          item.items[i] = str;
+          int newPos = str.indexOf(separator, lastPos);
+          item.items[i] = str.mid(lastPos, newPos - lastPos );
           lastPos = newPos + separator_length;
         }
-
         item.pack();
-      }
     }
 
     inline GitLogItemList::Iterator begin() { return items.begin(); }
@@ -53,13 +54,15 @@ namespace gitz {
     inline GitLogItemList::ConstIterator begin() const {return items.begin();}
     inline GitLogItemList::ConstIterator end() const {return items.end();}
 
-    const QString &getFormat() { return format; }
+    inline int length() const {return items.length();}
+    inline GitLogItem& operator[](int index) {return items[index];}
+    inline const QString &getFormat() { return format; }
+
 
   protected:
-    const QString separator = "\x01\x02\x03";
+    const QString separator = "|@@|";
     const int separator_length = separator.length();
     QString format;
-    QString data;
     GitLogItemList items;
   };
 }

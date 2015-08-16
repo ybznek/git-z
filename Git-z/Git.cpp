@@ -95,7 +95,7 @@ void Git::getLog() {
   addTask(a, [this]() {
     log << readStandardOutput();
     qDebug() << "stahl jsem graf";
-    emit onLogUpdated(&log);
+    emit onLogUpdated();
   });
 }
 

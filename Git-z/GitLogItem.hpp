@@ -6,7 +6,7 @@
 
 
 #define GETTER(name, index)                                                                                  \
-  inline const QStringRef &get##name() const { return items[index]; }
+  inline const QString& get##name() const { return items[index]; }
 
 namespace gitz {
   class GitLogItem {
@@ -26,7 +26,7 @@ namespace gitz {
     void pack() { ; } // maybe prepare hashes etc
 
   protected:
-    QStringRef items[_max_items_];
+    QString items[_max_items_];
   };
 }
 
