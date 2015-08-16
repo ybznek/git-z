@@ -2,9 +2,10 @@
 #define GITGRAPH_HPP
 
 #include <QString>
-#include <QList>
 #include "GitLogFormat.hpp"
 #include "GitLogItem.hpp"
+#include <QDebug>
+#include <GitLogItemList.hpp>
 namespace gitz{
 
 class GitLog
@@ -20,7 +21,6 @@ protected:
 
     }
 
-    enum{};
     void operator=(const QString& str){
         data = str;
         items.clear();
@@ -29,15 +29,16 @@ protected:
                 int start = data.indexOf(separator,lastPos);
                 if (start == -1) break;
                 start += separator_length;
-                GitLogItem item;
-                for (int i=0;i<GitLogItem::_max_items_;++i){
+                GitLogItem &item = items.append();
+                    for (int i=0;i<GitLogItem::_max_items_;++i){
                     int newPos = data.indexOf(separator,lastPos);
-                    item.items[i]=data.midRef(lastPos,newPos-lastPos -1);
+                    QStringRef str=data.midRef(lastPos,newPos-lastPos -1);
+                    qDebug() << str;
+                    item.items[i]=str;
                     lastPos+=newPos+separator_length;
                 }
 
                 item.pack();
-                items.append(item);
         }
 
     }
@@ -45,10 +46,10 @@ protected:
 
 protected:
     const QString separator="@|@|@";
-    int separator_length=separator.length();
+    const int separator_length=separator.length();
     QString format;
     QString data;
-    QList<GitLogItem> items;
+    GitLogItemList items;
 };
 
 }

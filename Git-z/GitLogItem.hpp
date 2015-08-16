@@ -20,7 +20,7 @@ protected:
         };
 
         public:
-            GitLogItem();
+            GitLogItem(){}
 
             GETTER(CommitId,commit)
             GETTER(Date,date)

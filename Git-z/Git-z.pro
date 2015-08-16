@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     GitStatusParser.cpp \
     GitLog.cpp \
     GitLogItem.cpp \
-    CommitHash.cpp
+    CommitHash.cpp \
+    GitLogItemList.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -70,7 +71,8 @@ HEADERS  += \
     GitStatusParser.hpp \
     GitLog.hpp \
     GitLogItem.hpp \
-    CommitHash.hpp
+    CommitHash.hpp \
+    GitLogItemList.hpp
 
 FORMS    += mainwindow.ui \
     LogView.ui
