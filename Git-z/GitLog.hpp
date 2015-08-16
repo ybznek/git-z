@@ -24,19 +24,20 @@ namespace gitz {
     }
 
 
-    void operator=(const QString &str) {
+    void operator<<(const QString &str) {
+        qDebug() << "Parsovani logu: " << str;
       data = str;
       items.clear();
-      int lastPos = 0;
       while (true) {
-        int start = data.indexOf(separator, lastPos);
-        if (start == -1)
+        int lastPos = data.indexOf(separator, lastPos);
+        if (lastPos == -1)
           break;
-        start += separator_length;
+        lastPos += separator_length;
+        qDebug() << "ITEM";
         GitLogItem &item = items.append();
         for (int i = 0; i < GitLogItem::_max_items_; ++i) {
           int newPos = data.indexOf(separator, lastPos);
-          QStringRef str = data.midRef(lastPos, newPos - lastPos - 1);
+          QStringRef str = data.midRef(lastPos, newPos - lastPos );
           qDebug() << str;
           item.items[i] = str;
           lastPos += newPos + separator_length;
@@ -55,7 +56,7 @@ namespace gitz {
     const QString &getFormat() { return format; }
 
   protected:
-    const QString separator = "@|@|@";
+    const QString separator = "|@|@|@|";
     const int separator_length = separator.length();
     QString format;
     QString data;

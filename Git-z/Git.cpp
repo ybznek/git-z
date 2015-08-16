@@ -89,13 +89,11 @@ void Git::interactiveRebase(CommitID commit, tRebaseCallback cb) {
 }
 
 void Git::getLog() {
-  static const QString SEP = "@@@";
   A a;
   a << "log";
-  a << "--graph";
-  a << ("--pretty=format:" + SEP + "%ai" + SEP + "%H" + "%aN" + SEP + "%s");
+  a << ("--pretty=format:" + log.getFormat());
   addTask(a, [this]() {
-    log = readStandardOutput();
+    log << readStandardOutput();
     qDebug() << "stahl jsem graf";
     emit onLogUpdated(&log);
   });

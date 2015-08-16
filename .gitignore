@@ -31,3 +31,6 @@ Makefile*
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
+Git-z
+Git-z.exe
+/build-Git-z*

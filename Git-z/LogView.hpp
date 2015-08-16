@@ -22,7 +22,7 @@ protected slots:
   void updateGraph(const GitLog *log) {
       qDebug() << "mam novy graf";
     for (const GitLogItem &item : *log) {
-      qDebug() << item.getCommitId();
+      qDebug() << item.getCommitHash();
     }
   }
 public:

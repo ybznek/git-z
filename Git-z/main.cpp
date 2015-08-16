@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
 
     REGISTER_META(GitFileList);
     REGISTER_META(GitBranchList);
-    REGISTER_META(GitLog);
 
     QObject::connect(&a, SIGNAL(focusChanged(QWidget *, QWidget *)), &w,
                      SLOT(focusChanged(QWidget *, QWidget *)));
