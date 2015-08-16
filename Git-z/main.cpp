@@ -5,8 +5,9 @@
 #include <QFile>
 #include "GitEdit.hpp"
 #include "RebaseList.hpp"
+#include "GitLog.hpp"
 
-#define META(name) qRegisterMetaType<name>(#name)
+#define REGISTER_META(name) qRegisterMetaType<name>(#name)
 
 int main(int argc, char *argv[]) {
 
@@ -24,8 +25,9 @@ int main(int argc, char *argv[]) {
     QString executable{args.at(0)};
     MainWindow w{executable};
 
-    META(GitFileList);
-    META(GitBranchList);
+    REGISTER_META(GitFileList);
+    REGISTER_META(GitBranchList);
+    REGISTER_META(GitLog);
 
     QObject::connect(&a, SIGNAL(focusChanged(QWidget *, QWidget *)), &w,
                      SLOT(focusChanged(QWidget *, QWidget *)));

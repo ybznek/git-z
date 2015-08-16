@@ -36,12 +36,12 @@ namespace gitz {
       file.reset();
 
       do {
-              QString str;
-              stdio >> str;
-          if ( str.startsWith(END_OF_INPUT)){
-              break;
-          }
-          fileStream << str << '\n';          
+        QString str;
+        stdio >> str;
+        if (str.startsWith(END_OF_INPUT)) {
+          break;
+        }
+        fileStream << str << '\n';
       } while (true);
       file.resize(file.pos());
 

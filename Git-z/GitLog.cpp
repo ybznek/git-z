@@ -1,3 +1,1 @@
 #include "GitLog.hpp"
-
-

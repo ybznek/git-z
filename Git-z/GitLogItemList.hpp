@@ -4,36 +4,37 @@
 #include <QList>
 
 namespace gitz {
-/**
- * List reuse old memory
- */
-class GitLogItemList
-{
-protected:
+  /**
+   * List reuse old memory
+   */
+  class GitLogItemList {
+  protected:
     using tList = QList<GitLogItem>;
-public:
-    GitLogItemList() {prereserve();}
-    inline void clear(){        internalLength = 0;    }
 
-    GitLogItem & append();
+  public:
+     using Iterator = tList::Iterator;
+     using ConstIterator = tList::ConstIterator;
+    GitLogItemList() { prereserve(); }
+    inline void clear() { internalLength = 0; }
 
-    inline int length() const {return internalLength; }
+    GitLogItem &append();
 
-    GitLogItem & operator[](int index){return items[index];}
+    inline int length() const { return internalLength; }
 
-    inline tList::Iterator begin() {return items.begin();}
-    inline tList::Iterator end() { return items.begin()+internalLength;}
+    GitLogItem &operator[](int index) { return items[index]; }
 
-    inline tList::ConstIterator begin() const {return items.constBegin();}
-    inline tList::ConstIterator end() const { return items.constBegin()+internalLength;}
+    inline Iterator begin() { return items.begin(); }
+    inline Iterator end() { return items.begin() + internalLength; }
+
+    inline ConstIterator begin() const { return items.constBegin(); }
+    inline ConstIterator end() const { return items.constBegin() + internalLength; }
 
 
-protected:
-    inline void prereserve(){items.reserve(internalLength+100);}
+  protected:
+    inline void prereserve() { items.reserve(internalLength + 100); }
     int internalLength = 0;
     tList items;
-};
-
+  };
 }
 
 #endif // GITLOGITEMLIST_HPP

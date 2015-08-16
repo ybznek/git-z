@@ -20,20 +20,20 @@ namespace gitz {
 
 
   protected:
-    using itemVector = QList<rebaseItem*>;
+    using itemVector = QList<rebaseItem *>;
     itemVector items;
 
   public:
-    using iterator=itemVector::Iterator;
+    using iterator = itemVector::Iterator;
 
     inline void append(const RebaseOperation &op, const CommitID &id) {
-        items.push_back(new rebaseItem{id, op});
+      items.push_back(new rebaseItem{id, op});
     }
     inline void append(const CommitID &id) { append(RebaseOperation::pick, id); }
 
     inline void remove(iterator &i) {
-        delete *i;
-        items.erase(i);
+      delete *i;
+      items.erase(i);
     }
     inline void remove(const CommitID &commit) {
       iterator &&it = find(commit);
@@ -53,13 +53,13 @@ namespace gitz {
     inline const auto begin() const { return items.begin(); }
     inline const auto end() const { return items.end(); }
 
-    ~RebaseList(){
-        for(rebaseItem* itm:items){
-            delete itm;
-        }
+    ~RebaseList() {
+      for (rebaseItem *itm : items) {
+        delete itm;
+      }
     }
-    //todo http://blog.cppse.nl/cpp-multiple-iterators-with-traits
-    //inline const rebaseItem begin() const {return *(items.at(0).get());}
+    // todo http://blog.cppse.nl/cpp-multiple-iterators-with-traits
+    // inline const rebaseItem begin() const {return *(items.at(0).get());}
   };
 }
 

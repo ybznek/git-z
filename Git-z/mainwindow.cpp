@@ -9,6 +9,8 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   ui->setupUi(this);
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
 
+  logView.setModal(true);
+
   // Events from git
 
   QObject::connect(&git, SIGNAL(onError(QString)), ui->logView, SLOT(appendPlainText(QString)));

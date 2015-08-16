@@ -5,31 +5,27 @@
 #include "CommitID.hpp"
 
 
-#define GETTER(name,index) inline const QStringRef & get ## name() const { return items[index];}
+#define GETTER(name, index)                                                                                  \
+  inline const QStringRef &get##name() const { return items[index]; }
 
-class GitLog;
-namespace gitz{
-class GitLogItem
-{
-        friend class GitLog;
-protected:
-        enum {
-            commit,
-            date,
-            _max_items_
-        };
+namespace gitz {
+  class GitLogItem {
+    friend class GitLog;
 
-        public:
-            GitLogItem(){}
+  protected:
+    enum { commit, date, _max_items_ };
 
-            GETTER(CommitId,commit)
-            GETTER(Date,date)
+  public:
+    GitLogItem() {}
 
-             void pack(){;} // maybe prepare hashes etc
+    GETTER(CommitId, commit)
+    GETTER(Date, date)
 
-        protected:
-           QStringRef items[_max_items_] ;
-};
+    void pack() { ; } // maybe prepare hashes etc
+
+  protected:
+    QStringRef items[_max_items_];
+  };
 }
 
 #undef GETTER

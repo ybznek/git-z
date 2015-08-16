@@ -1,12 +1,13 @@
 #ifndef GIT_HPP
 #define GIT_HPP
+#include "GitLog.hpp"
 #include "GitProcess.hpp"
 #include <QObject>
 #include "GitFileList.hpp"
 #include "GitBranchList.hpp"
 #include "CommitID.hpp"
 #include "RebaseList.hpp"
-#include "GitLog.hpp"
+
 namespace gitz {
   class Git : public GitProcess {
     Q_OBJECT
@@ -19,6 +20,7 @@ namespace gitz {
   signals:
     void onBranchesUpdated(const GitBranchList &branchList);
     void onStatusUpdated(const GitFileList &list);
+    void onLogUpdated(const GitLog* log);
 
   public slots:
     void commit(const QString &message, const QStringList &files, bool amend = false);
@@ -28,14 +30,14 @@ namespace gitz {
     void renameCurrentBranch(QString newName);
     void createNewBranch(QString name);
     void interactiveRebase(CommitID commit, tRebaseCallback cb);
-    void getGraph();
+    void getLog();
 
   protected:
     void readRebaseList(RebaseList &list);
     void writeRebaseList(RebaseList &list);
     void parseStatus();
     QString currentBranch;
-    GitLog graph;
+    GitLog log;
   };
 }
 #endif // GIT_HPP

@@ -6,7 +6,7 @@
 #include <QStringListModel>
 #include <GitBranchList.hpp>
 #include <RebaseList.hpp>
-#include <LogView.hpp>
+#include "LogView.hpp"
 using namespace gitz;
 namespace Ui {
   class MainWindow;
@@ -29,10 +29,12 @@ protected slots:
     }
   }
 
-  void showLogView(){
-        LogView* v = new LogView{&git, this};
-        v->setModal(true);
-        v->setVisible(true);
+  void enable(){
+      this->setEnabled(true);
+  }
+  void showLogView() {
+      logView.setVisible(true);
+     emit logView.updateLog();
   }
   void onBranchesUpdated(const GitBranchList &branchList);
   void fileListUpdated(const GitFileList &fileList);
@@ -54,6 +56,7 @@ protected slots:
 private:
   Ui::MainWindow *ui;
   Git git;
+  LogView logView{git, this};
   QStringList strlist;
   QStringListModel strlistModel;
   QStringListModel strlistModel2;
