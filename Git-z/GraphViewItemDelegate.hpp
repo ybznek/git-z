@@ -14,7 +14,9 @@ namespace gitz {
       int w = r.width();
       int h = r.height();
       painter->setPen(Qt::green);
-      painter->drawLine(0, 0, w, h);
+//      QModelIndex.
+      painter->drawLine(0, h*(index.row()-1), w, h * index.row());
+
     }
   };
 }

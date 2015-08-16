@@ -35,7 +35,6 @@ SOURCES += main.cpp\
     RebaseOperation.cpp \
     LogView.cpp \
     GitCommit.cpp \
-    GitStatusParser.cpp \
     GitLog.cpp \
     GitLogItem.cpp \
     CommitHash.cpp \
@@ -65,7 +64,6 @@ HEADERS  += \
     LogView.hpp \
     GitCommit.hpp \
     GitLogFormat.hpp \
-    GitStatusParser.hpp \
     GitLog.hpp \
     GitLogItem.hpp \
     CommitHash.hpp \
