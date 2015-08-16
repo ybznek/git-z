@@ -14,11 +14,11 @@ namespace gitz {
   class GitEdit : public QObject {
     Q_OBJECT
   public:
-
-  GitEdit(const QString &filename) : file{filename}, fileStream{&file} {}
-int run() ;
+    GitEdit(const QString &filename) : file{filename}, fileStream{&file} {}
+    int run();
 
     void printFile();
+
   protected:
     QFile file;
     QTextStream fileStream;

@@ -8,7 +8,7 @@
 #include <RebaseList.hpp>
 #include "LogView.hpp"
 using namespace gitz;
-namespace Ui{
+namespace Ui {
   class MainWindow;
 }
 class MainWindow : public QMainWindow {
@@ -28,12 +28,10 @@ protected slots:
     }
   }
 
-  void enable(){
-      this->setEnabled(true);
-  }
+  void enable() { this->setEnabled(true); }
   void showLogView() {
-      logView.setVisible(true);
-     emit git.getLog();
+    logView.setVisible(true);
+    emit git.getLog();
   }
   void onBranchesUpdated(const GitBranchList &branchList);
   void fileListUpdated(const GitFileList &fileList);

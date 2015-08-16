@@ -6,7 +6,7 @@
 
 
 #define GETTER(name, index)                                                                                  \
-  inline const QString& get##name() const { return items[index]; }
+  inline const QString &get##name() const { return items[index]; }
 
 namespace gitz {
 
@@ -20,9 +20,9 @@ namespace gitz {
     GitLogItem() {}
 
     GETTER(CommitHash, commit)
-//    GETTER(Date, date)
-    GETTER(Author,author)
-    GETTER(Subject,subject)
+    //    GETTER(Date, date)
+    GETTER(Author, author)
+    GETTER(Subject, subject)
 
     void pack() { ; } // maybe prepare hashes etc
 

@@ -12,14 +12,14 @@ namespace gitz {
     using tList = QList<GitLogItem>;
 
   public:
-     using Iterator = tList::Iterator;
-     using ConstIterator = tList::ConstIterator;
+    using Iterator = tList::Iterator;
+    using ConstIterator = tList::ConstIterator;
 
     GitLogItemList() { prereserve(); }
 
     inline void clear() { internalLength = 0; }
 
-    GitLogItem& append();
+    GitLogItem &append();
 
     inline int length() const { return internalLength; }
 

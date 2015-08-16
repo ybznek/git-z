@@ -9,19 +9,21 @@
 #include <QScrollBar>
 #include <QTableView>
 #include <QStandardItemModel>
+#include "GraphViewItemDelegate.hpp"
 using namespace gitz;
-class GraphViewWidget : public QTableView
-{
-    Q_OBJECT
+class GraphViewWidget : public QTableView {
+  Q_OBJECT
 public:
-    explicit GraphViewWidget(QWidget *parent = nullptr):QTableView{parent}{
-        this->setModel(&model);
-        this->setShowGrid(false);
-    }
+  explicit GraphViewWidget(QWidget *parent = nullptr) : QTableView{parent} {
+    this->setModel(&model);
+    this->setShowGrid(false);
+    GraphViewItemDelegate *delegate = new GraphViewItemDelegate{this};
+    this->setItemDelegateForColumn(0, delegate);
+  }
 
-    void setScrollbar(QScrollBar* scrollbar){this->scrollbar=scrollbar;}
+  void setScrollbar(QScrollBar *scrollbar) { this->scrollbar = scrollbar; }
 
-    inline void setLog(const GitLog& log){this->log=&log;}
+  inline void setLog(const GitLog &log) { this->log = &log; }
 /*    void paintEvent(QPaintEvent* event) override
     {
 //QTableView::paintEvent(event);
@@ -50,44 +52,45 @@ public:
 signals:
 
 public slots:
-    void onScroll(int scroll) {
-        this->scroll = scroll;
-        repaint();
-        qDebug()<< "scrollChanged";
+  void onScroll(int scroll) {
+    this->scroll = scroll;
+    repaint();
+    qDebug() << "scrollChanged";
+  }
+  void notifyDataChanged() {
+    resizeTable();
+    int row = 0;
+    for (const GitLogItem &logItem : *log) {
+      model.item(row, 0)->setText(logItem.getSubject());
+      model.item(row, 1)->setText(logItem.getCommitHash());
+      model.item(row, 2)->setText(logItem.getAuthor());
+      ++row;
     }
-    void notifyDataChanged(){
-        resizeTable();
-        int row=0;
-        for (const GitLogItem& logItem : *log){
-                    model.item(row,0)->setText(logItem.getSubject());
-                    model.item(row,1)->setText(logItem.getCommitHash());
-                    model.item(row,2)->setText(logItem.getAuthor());
-                ++row;
-        }
 
-//        repaint();
-    }
+    //        repaint();
+  }
+
 protected:
-    void resizeTable(){
-        int newLength=log->length();
-        int length=model.rowCount();
-        int diff=newLength-length;
-        if (diff>0) {
-                model.insertRows(0,diff);
-                for(int row=0;row<diff;++row){
-                    for (int column=0;column<3;++column){
-                        model.setItem(row,column,new QStandardItem{});
-                    }
-                }
-        } else if (newLength < length){
-                model.removeRows(0,-diff);
+  void resizeTable() { // todo mayby inserting items into begin of table is not effective
+    int newLength = log->length();
+    int length = model.rowCount();
+    int diff = newLength - length;
+    if (diff > 0) {
+      model.insertRows(0, diff);
+      for (int row = 0; row < diff; ++row) {
+        for (int column = 0; column < 3; ++column) {
+          model.setItem(row, column, new QStandardItem{});
         }
+      }
+    } else if (newLength < length) {
+      model.removeRows(0, -diff);
     }
-        int scroll = 0;
-        const GitLog* log = nullptr;
-        const QBrush backgroundBrush{QColor{255,255,255}};
-        QScrollBar* scrollbar = nullptr;
-        QStandardItemModel model;
+  }
+  int scroll = 0;
+  const GitLog *log = nullptr;
+  const QBrush backgroundBrush{QColor{255, 255, 255}};
+  QScrollBar *scrollbar = nullptr;
+  QStandardItemModel model;
 };
 
 #endif // GRAPHVIEWWIDGET_HPP

@@ -23,20 +23,20 @@ void GitProcess::setWorkingDirectory(const QString &newDir) { process.setWorking
 void GitProcess::printBusyMessage(const QString &cmd) { onError("Program is busy, " + cmd + " is ignored."); }
 
 QString GitProcess::blockingReadOutputLine() {
-    if (processStream.atEnd()) {
-        process.waitForReadyRead();
-    }
+  if (processStream.atEnd()) {
+    process.waitForReadyRead();
+  }
 
-    return processStream.readLine();
+  return processStream.readLine();
 }
 
 void GitProcess::closeWriteChannel() {
-    processStream.flush();
-    process.closeWriteChannel();
+  processStream.flush();
+  process.closeWriteChannel();
 }
 
 void GitProcess::insertProcessEnvironment(const QString &name, const QString &value) {
-    QProcessEnvironment env{QProcessEnvironment::systemEnvironment()};
-    env.insert(name, value);
-    process.setProcessEnvironment(env);
+  QProcessEnvironment env{QProcessEnvironment::systemEnvironment()};
+  env.insert(name, value);
+  process.setProcessEnvironment(env);
 }

@@ -15,14 +15,14 @@ class LogView : public QDialog {
   Q_OBJECT
 
 public:
-  explicit LogView(Git& git, QWidget *parent = nullptr);
+  explicit LogView(Git &git, QWidget *parent = nullptr);
   ~LogView();
 
 public slots:
   void updateLog();
 
 private:
-  Git& git;
+  Git &git;
   Ui::LogView *ui;
 };
 

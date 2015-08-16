@@ -10,7 +10,7 @@ namespace gitz {
 
     GitBranch(QString name) : name{name} {}
 
-    const QString& getName() const { return name; }
+    const QString &getName() const { return name; }
 
   protected:
     QString name;

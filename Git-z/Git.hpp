@@ -16,7 +16,7 @@ namespace gitz {
   public:
     Git(const QString &executable) { insertProcessEnvironment("GIT_SEQUENCE_EDITOR", executable + " edit"); }
     using tRebaseCallback = std::function<void(Git &, RebaseList &)>;
-    const GitLog& getLogView() const {return log;}
+    const GitLog &getLogView() const { return log; }
 
   public slots:
     void commit(const QString &message, const QStringList &files, bool amend = false);
