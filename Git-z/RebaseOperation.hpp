@@ -11,12 +11,18 @@ public:
 
   inline RebaseOperation(const QString &strop) : val{stringToOp(strop)} {}
 
-  inline operator const QString() { return opToString(val); }
+  inline operator const QString & () const { return opToString(val); }
+
+  inline RebaseOperation& operator=(const QString & strop){ val=stringToOp(strop); return *this;}
+
+  inline RebaseOperation& operator=(op newop){ val=newop; return *this;}
+
+  inline bool operator==(op v) { return val == v;}
 
 protected:
-  QString opToString(op val);
+  const QString & opToString(op val) const;
 
-  op stringToOp(const QString &str);
+  op stringToOp(const QString &str) const;
   op val;
 };
 

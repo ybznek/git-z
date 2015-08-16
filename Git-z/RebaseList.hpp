@@ -5,7 +5,7 @@
 #include <RebaseOperation.hpp>
 #include <CommitID.hpp>
 
-#include <vector>
+#include <QList>
 #include <memory>
 namespace gitz {
   class RebaseList : public QObject {
@@ -18,18 +18,23 @@ namespace gitz {
       RebaseOperation op;
     };
 
-    using itemPtr = std::unique_ptr<rebaseItem>;
 
   protected:
-    using itemVector = std::vector<itemPtr>;
+    using itemVector = QList<rebaseItem*>;
     itemVector items;
 
   public:
-    using iterator = itemVector::iterator;
-    void append(const RebaseOperation &op, const CommitID &id);
+    using iterator=itemVector::Iterator;
+
+    inline void append(const RebaseOperation &op, const CommitID &id) {
+        items.push_back(new rebaseItem{id, op});
+    }
     inline void append(const CommitID &id) { append(RebaseOperation::pick, id); }
 
-    inline void remove(iterator &i) { items.erase(i); }
+    inline void remove(iterator &i) {
+        delete *i;
+        items.erase(i);
+    }
     inline void remove(const CommitID &commit) {
       iterator &&it = find(commit);
       this->remove(it);
@@ -40,8 +45,21 @@ namespace gitz {
 
     inline bool isExists(iterator &iterator) { return iterator != items.end(); }
     inline void clear() { items.clear(); }
-    inline iterator begin() { return items.begin(); }
-    inline iterator end() { return items.end(); }
+
+
+    inline auto begin() { return items.begin(); }
+    inline auto end() { return items.end(); }
+
+    inline const auto begin() const { return items.begin(); }
+    inline const auto end() const { return items.end(); }
+
+    ~RebaseList(){
+        for(rebaseItem* itm:items){
+            delete itm;
+        }
+    }
+    //todo http://blog.cppse.nl/cpp-multiple-iterators-with-traits
+    //inline const rebaseItem begin() const {return *(items.at(0).get());}
   };
 }
 

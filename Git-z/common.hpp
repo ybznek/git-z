@@ -9,7 +9,7 @@ namespace gitz {
   enum edit_parsing_characters {
     FILE_CHAR = '*',
     END_FILE_CHAR = '>',
-    INPUT_FILE = '<',
+    END_OF_INPUT = '<',
   };
 }
 #endif // COMMON_HPP

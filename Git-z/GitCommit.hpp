@@ -1,6 +1,7 @@
 #ifndef GITCOMMIT_HPP
 #define GITCOMMIT_HPP
 #include <QString>
+#include <QStringList>
 
 class GitCommit {
 public:

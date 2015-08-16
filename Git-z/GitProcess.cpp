@@ -7,7 +7,7 @@ GitProcess::GitProcess() : tasks(new GitTaskQueue{this}) {}
 void GitProcess::runExec(const QStringList &args) {
   qDebug() << "runexec";
   this->onCommand(args.join(' '));
-  process.start(executable, args, QProcess::OpenModeFlag::ReadOnly);
+  process.start(executable, args, QProcess::OpenModeFlag::ReadWrite);
 }
 
 void GitProcess::addTask(const QStringList &args, tGitCallback cb) { addTask(args, true, cb); }

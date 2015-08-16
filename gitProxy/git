@@ -1,0 +1,4 @@
+#!/bin/sh
+proxyDir="`dirname \"$0\"`"
+echo "$@" > "$proxyDir/params"
+exec /usr/bin/git "$@" | tee "$proxyDir/stdout"

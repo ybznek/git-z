@@ -6,6 +6,7 @@
 #include "GitBranchList.hpp"
 #include "CommitID.hpp"
 #include "RebaseList.hpp"
+#include "GitGraph.hpp"
 namespace gitz {
   class Git : public GitProcess {
     Q_OBJECT
@@ -27,11 +28,14 @@ namespace gitz {
     void renameCurrentBranch(QString newName);
     void createNewBranch(QString name);
     void interactiveRebase(CommitID commit, tRebaseCallback cb);
+    void getGraph();
 
   protected:
     void readRebaseList(RebaseList &list);
+    void writeRebaseList(RebaseList &list);
     void parseStatus();
     QString currentBranch;
+    GitGraph graph;
   };
 }
 #endif // GIT_HPP

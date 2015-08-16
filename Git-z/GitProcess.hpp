@@ -36,6 +36,8 @@ namespace gitz {
     inline void waitForFinished() { process.waitForFinished(); }
     inline bool isOutputEnd() { return processStream.atEnd(); }
     inline QString readOutputLine() { return processStream.readLine(); }
+    inline void writeToProcess(const QString & s) { processStream << s;}
+    inline void writeToProcess(char ch) { processStream << ch;}
     inline QString blockingReadOutputLine() {
       if (processStream.atEnd()) {
         process.waitForReadyRead();
@@ -44,8 +46,10 @@ namespace gitz {
       return processStream.readLine();
     }
 
-    inline QString readErrorOutput() { return QString{process.readAllStandardError()}; }
     inline void setExecutable(const QString &newExec) { executable = newExec; }
+    inline QString readErrorOutput() { return QString{process.readAllStandardError()}; }
+    inline QString readStandardOutput() { return QString{process.readAllStandardOutput()}; }
+    inline void closeWriteChannel(){processStream.flush();process.closeWriteChannel();}
     void insertProcessEnvironment(const QString &name, const QString &value) {
       QProcessEnvironment env{QProcessEnvironment::systemEnvironment()};
       env.insert(name, value);
@@ -55,6 +59,7 @@ namespace gitz {
 
   private:
     QString executable{"git"};
+//    QString executable{"/a/projects/C++/Qt/Git-Z/gitProxy/git"};
     QProcess process;
     QTextStream processStream{&process};
     GitTaskQueue *const tasks;

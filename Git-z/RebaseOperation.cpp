@@ -1,13 +1,16 @@
 #include "RebaseOperation.hpp"
 
 #define NAME_TO_STR(name)                                                                                    \
-  case name:                                                                                                 \
-    return #name;
+  case name:{                                                                                                \
+    static const QString str{#name};                                                                         \
+    return str;                                                                                              \
+  }
+
 #define STR_TO_NAME(name)                                                                                    \
   if (str == #name)                                                                                          \
     return name;
 
-QString RebaseOperation::opToString(op val) {
+const QString & RebaseOperation::opToString(op val) const {
   switch (val) {
     NAME_TO_STR(pick);
     NAME_TO_STR(reword);
@@ -19,7 +22,7 @@ QString RebaseOperation::opToString(op val) {
   Q_UNREACHABLE();
 }
 
-RebaseOperation::op RebaseOperation::stringToOp(const QString &str) {
+RebaseOperation::op RebaseOperation::stringToOp(const QString &str) const {
 
   STR_TO_NAME(pick);
   STR_TO_NAME(reword);

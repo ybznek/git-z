@@ -72,19 +72,40 @@ void Git::interactiveRebase(CommitID commit, tRebaseCallback cb) {
     qDebug() << "rebasing";
     RebaseList list;
     readRebaseList(list);
+    qDebug() << "zavolan read rebase list";
     cb(*this, list);
+    qDebug() << "zavolan cb";
+    writeRebaseList(list);
+    closeWriteChannel();
+    qDebug() << "zapsan rebase list";
 
-    qDebug() << readErrorOutput();
 
     qDebug() << "konec";
+    qDebug() << readErrorOutput();
+    qDebug() << readStandardOutput();
+    waitForFinished();
+    qDebug() << "finisged";
   });
+
+}
+
+void Git::getGraph(){
+    static const QString SEP="@@@";
+    A a;
+    a<< "log";
+    a << "--graph";
+    a << ("--pretty=format:"+SEP+"%ai"+SEP+"%H"+"%aN"+SEP+"%s");
+    addTask(a, [this](){
+        qDebug() << readStandardOutput();
+    });
 }
 
 void Git::readRebaseList(RebaseList &list) {
-  bool end = false;
+    bool end = false;
 
-  while (!end) {
-    QString line{blockingReadOutputLine()};
+    while (!end) {
+        QString line{blockingReadOutputLine()};
+    qDebug() << "lajna" << line;
     if (line.startsWith(FILE_CHAR)) {
       if (line.midRef(1).startsWith("pick"))
         list.append(line.mid(6, 7));
@@ -96,17 +117,29 @@ void Git::readRebaseList(RebaseList &list) {
   }
 }
 
-void Git::parseStatus() {
-  GitFileList list;
-  while (!isOutputEnd()) {
-    QString line{readOutputLine()};
-    qDebug() << line;
-    GitFile::state fileState;
+void Git::writeRebaseList(RebaseList &list){
+    for (const RebaseList::rebaseItem* item:list){
+        qDebug() << item->op << ' ' << item->commit << '\n';
+        writeToProcess(item->op);
+        writeToProcess(' ');
+        writeToProcess(item->commit);
+        writeToProcess('\n');
+    }
+    writeToProcess(END_OF_INPUT);
+    writeToProcess('\n');
+}
 
-    if (line.startsWith("??")) {
-      fileState = GitFile::state::CREATED;
-    } else if (line.startsWith(" M")) {
-      fileState = GitFile::state::MODIFIED;
+void Git::parseStatus() {
+    GitFileList list;
+    while (!isOutputEnd()) {
+        QString line{readOutputLine()};
+        qDebug() << line;
+        GitFile::state fileState;
+
+        if (line.startsWith("??")) {
+            fileState = GitFile::state::CREATED;
+        } else if (line.startsWith(" M")) {
+            fileState = GitFile::state::MODIFIED;
     } else if (line.startsWith(" D")) {
       fileState = GitFile::state::REMOVED;
     } else {

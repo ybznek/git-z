@@ -6,6 +6,7 @@
 #include <QStringListModel>
 #include <GitBranchList.hpp>
 #include <RebaseList.hpp>
+#include <LogView.hpp>
 using namespace gitz;
 namespace Ui {
   class MainWindow;
@@ -27,6 +28,12 @@ protected slots:
       emit git.getBranches();
     }
   }
+
+  void showLogView(){
+        LogView* v = new LogView{&git, this};
+        v->setModal(true);
+        v->setVisible(true);
+  }
   void onBranchesUpdated(const GitBranchList &branchList);
   void fileListUpdated(const GitFileList &fileList);
   void onCommit();
@@ -34,10 +41,11 @@ protected slots:
   void renameCurrentBranch(QModelIndex, QModelIndex, QVector<int>);
   void newBranch();
   void onRebase() {
-    git.interactiveRebase("2d0a0daca1a24d4a6a7ad9a1f7127593f69a84a9^1", [](Git &git, RebaseList &items) {
+    git.interactiveRebase("56fc4247dacb186506ef6902771235c4490bdf3b", [](Git &git, RebaseList &items) {
       qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-      for (RebaseList::itemPtr &itemPtr : items) {
-        RebaseList::rebaseItem *item = itemPtr.get();
+      items.clear();
+      items.append("ddcbb8b9497d9d9fff675be29005010d811c8d01");
+      for (RebaseList::rebaseItem *item : items) {
         qDebug() << item->commit << "op" << item->op;
       }
     });

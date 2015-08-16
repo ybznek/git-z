@@ -33,13 +33,18 @@ namespace gitz {
         return false;
       }
       printFile();
+      file.reset();
 
-      QString str;
-      while (stdio >> str) {
-        qDebug() << str;
-        stdio << "str" << str << '\n';
-        stdio.flush();
-      }
+      do {
+              QString str;
+              stdio >> str;
+          if ( str.startsWith(END_OF_INPUT)){
+              break;
+          }
+          fileStream << str << '\n';          
+      } while (true);
+      file.resize(file.pos());
+
       return 0;
     }
   signals:

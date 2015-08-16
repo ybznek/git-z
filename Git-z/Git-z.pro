@@ -33,7 +33,15 @@ SOURCES += main.cpp\
     GitStdinout.cpp \
     CommitID.cpp \
     RebaseList.cpp \
-    RebaseOperation.cpp
+    RebaseOperation.cpp \
+    LogView.cpp \
+    GitCommand.cpp \
+    GitCommit.cpp \
+    GitParser.cpp \
+    GitStatusParser.cpp \
+    GitLog.cpp \
+    GitLogItem.cpp \
+    CommitHash.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -53,9 +61,19 @@ HEADERS  += \
     GitStdIO.hpp \
     CommitID.hpp \
     RebaseList.hpp \
-    RebaseOperation.hpp
+    RebaseOperation.hpp \
+    LogView.hpp \
+    GitCommand.hpp \
+    GitCommit.hpp \
+    GitLogFormat.hpp \
+    GitParser.hpp \
+    GitStatusParser.hpp \
+    GitLog.hpp \
+    GitLogItem.hpp \
+    CommitHash.hpp
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    LogView.ui
 
 RESOURCES += \
     Icons.qrc

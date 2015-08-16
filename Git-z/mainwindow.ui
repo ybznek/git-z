@@ -93,6 +93,13 @@
       </property>
      </widget>
     </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="logViewButton">
+      <property name="text">
+       <string>Log</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
