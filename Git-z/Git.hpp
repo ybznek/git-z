@@ -9,19 +9,14 @@
 #include "RebaseList.hpp"
 
 namespace gitz {
+
   class Git : public GitProcess {
     Q_OBJECT
 
   public:
     Git(const QString &executable) { insertProcessEnvironment("GIT_SEQUENCE_EDITOR", executable + " edit"); }
-    ~Git() {}
     using tRebaseCallback = std::function<void(Git &, RebaseList &)>;
     const GitLog& getLogView() const {return log;}
-
-  signals:
-    void onBranchesUpdated(const GitBranchList &branchList);
-    void onStatusUpdated(const GitFileList &list);
-    void onLogUpdated();
 
   public slots:
     void commit(const QString &message, const QStringList &files, bool amend = false);
@@ -32,6 +27,12 @@ namespace gitz {
     void createNewBranch(QString name);
     void interactiveRebase(CommitID commit, tRebaseCallback cb);
     void getLog();
+
+  signals:
+    void onBranchesUpdated(const GitBranchList &branchList);
+    void onStatusUpdated(const GitFileList &list);
+    void onLogUpdated();
+
 
   protected:
     void readRebaseList(RebaseList &list);

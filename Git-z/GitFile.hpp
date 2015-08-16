@@ -7,6 +7,7 @@ namespace gitz {
     enum state { UNKNOWN, MODIFIED, CREATED, REMOVED };
     GitFile() {}
     GitFile(QString filename, state s) : filename{filename}, s{s} {}
+
     state getState() const { return s; }
     const QString &getFilename() const { return filename; }
 

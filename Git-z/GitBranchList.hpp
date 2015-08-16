@@ -2,7 +2,9 @@
 #define GITBRANCHLIST_HPP
 #include <QVector>
 #include "GitBranch.hpp"
+
 namespace gitz {
+
   class GitBranchList : public QVector<GitBranch> {
   public:
     inline void setSelected(int selected) { this->selected = selected; }

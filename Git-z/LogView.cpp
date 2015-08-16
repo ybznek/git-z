@@ -15,6 +15,7 @@ LogView::LogView(Git& git, QWidget *parent) : QDialog{parent}, git{git}, ui{new 
 LogView::~LogView() { delete ui; }
 
 void LogView::updateLog(){
-    ui->widget->repaint();
+    emit ui->widget->notifyDataChanged();
+//    ui->widget->repaint();
     qDebug() << "should repaint";
 }

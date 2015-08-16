@@ -28,22 +28,20 @@ SOURCES += main.cpp\
     TaskQueue.cpp \
     TaskThread.cpp \
     Git.cpp \
-    A.cpp \
     GitEdit.cpp \
     GitStdinout.cpp \
     CommitID.cpp \
     RebaseList.cpp \
     RebaseOperation.cpp \
     LogView.cpp \
-    GitCommand.cpp \
     GitCommit.cpp \
-    GitParser.cpp \
     GitStatusParser.cpp \
     GitLog.cpp \
     GitLogItem.cpp \
     CommitHash.cpp \
     GitLogItemList.cpp \
-    GraphViewWidget.cpp
+    GraphViewWidget.cpp \
+    GitStdIO.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -58,17 +56,14 @@ HEADERS  += \
     TaskQueue.hpp \
     TaskThread.hpp \
     Git.hpp \
-    A.hpp \
     GitEdit.hpp \
     GitStdIO.hpp \
     CommitID.hpp \
     RebaseList.hpp \
     RebaseOperation.hpp \
     LogView.hpp \
-    GitCommand.hpp \
     GitCommit.hpp \
     GitLogFormat.hpp \
-    GitParser.hpp \
     GitStatusParser.hpp \
     GitLog.hpp \
     GitLogItem.hpp \

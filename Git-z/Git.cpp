@@ -1,8 +1,8 @@
 #include "Git.hpp"
 
 #include <QDebug>
-#include "A.hpp"
 #include "common.hpp"
+using A = QStringList;
 using namespace gitz;
 void Git::getIndex() {
   qDebug() << "get status volano";

@@ -21,3 +21,22 @@ GitProcess::~GitProcess() { process.terminate(); }
 void GitProcess::setWorkingDirectory(const QString &newDir) { process.setWorkingDirectory(newDir); }
 
 void GitProcess::printBusyMessage(const QString &cmd) { onError("Program is busy, " + cmd + " is ignored."); }
+
+QString GitProcess::blockingReadOutputLine() {
+    if (processStream.atEnd()) {
+        process.waitForReadyRead();
+    }
+
+    return processStream.readLine();
+}
+
+void GitProcess::closeWriteChannel() {
+    processStream.flush();
+    process.closeWriteChannel();
+}
+
+void GitProcess::insertProcessEnvironment(const QString &name, const QString &value) {
+    QProcessEnvironment env{QProcessEnvironment::systemEnvironment()};
+    env.insert(name, value);
+    process.setProcessEnvironment(env);
+}

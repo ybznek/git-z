@@ -6,16 +6,25 @@
 #include <QPaintEvent>
 #include <QBrush>
 #include <QColor>
+#include <QScrollBar>
+#include <QTableView>
+#include <QStandardItemModel>
 using namespace gitz;
-class GraphViewWidget : public QWidget
+class GraphViewWidget : public QTableView
 {
     Q_OBJECT
 public:
-    explicit GraphViewWidget(QWidget *parent = nullptr):QWidget{parent}{
+    explicit GraphViewWidget(QWidget *parent = nullptr):QTableView{parent}{
+        this->setModel(&model);
+        this->setShowGrid(false);
     }
+
+    void setScrollbar(QScrollBar* scrollbar){this->scrollbar=scrollbar;}
+
     inline void setLog(const GitLog& log){this->log=&log;}
-    void paintEvent(QPaintEvent* event) override
+/*    void paintEvent(QPaintEvent* event) override
     {
+//QTableView::paintEvent(event);
         qDebug() << "top" << event->region().boundingRect().top();;
         QPainter p{this};
         p.setBackground(backgroundBrush);
@@ -24,30 +33,61 @@ public:
         int h=this->geometry().height();
         p.setPen(Qt::green);
         p.drawLine(0,0,w,h);
-        qDebug() << "len" << log->length();
+        qDebug() << "scroll" << scroll << "len" << log->length();
         int length=log->length();
         int pos=0;
-        p.setFont(QFont("arial",20-2));
+        int lineHeight=15;
+        p.setFont(QFont("arial",lineHeight-2));
         for (int i=scroll;i<length;++i){
             ++pos;
                const GitLogItem& it = (*log)[i];
-                p.drawText(20,20*pos, it.getCommitHash());
+                p.drawText(20,lineHeight*pos, it.getCommitHash());
                 qDebug() << it.getCommitHash();
-                ++i;
+
         }
 }
-
+*/
 signals:
 
 public slots:
     void onScroll(int scroll) {
         this->scroll = scroll;
         repaint();
+        qDebug()<< "scrollChanged";
+    }
+    void notifyDataChanged(){
+        resizeTable();
+        int row=0;
+        for (const GitLogItem& logItem : *log){
+                    model.item(row,0)->setText(logItem.getSubject());
+                    model.item(row,1)->setText(logItem.getCommitHash());
+                    model.item(row,2)->setText(logItem.getAuthor());
+                ++row;
+        }
+
+//        repaint();
     }
 protected:
+    void resizeTable(){
+        int newLength=log->length();
+        int length=model.rowCount();
+        int diff=newLength-length;
+        if (diff>0) {
+                model.insertRows(0,diff);
+                for(int row=0;row<diff;++row){
+                    for (int column=0;column<3;++column){
+                        model.setItem(row,column,new QStandardItem{});
+                    }
+                }
+        } else if (newLength < length){
+                model.removeRows(0,-diff);
+        }
+    }
         int scroll = 0;
         const GitLog* log = nullptr;
         const QBrush backgroundBrush{QColor{255,255,255}};
+        QScrollBar* scrollbar = nullptr;
+        QStandardItemModel model;
 };
 
 #endif // GRAPHVIEWWIDGET_HPP

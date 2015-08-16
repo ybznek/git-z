@@ -15,7 +15,7 @@ class LogView : public QDialog {
   Q_OBJECT
 
 public:
-  explicit LogView(Git& git, QWidget *parent = 0);
+  explicit LogView(Git& git, QWidget *parent = nullptr);
   ~LogView();
 
 public slots:

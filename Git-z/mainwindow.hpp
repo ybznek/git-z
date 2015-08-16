@@ -8,10 +8,9 @@
 #include <RebaseList.hpp>
 #include "LogView.hpp"
 using namespace gitz;
-namespace Ui {
+namespace Ui{
   class MainWindow;
 }
-
 class MainWindow : public QMainWindow {
   Q_OBJECT
 

@@ -9,6 +9,7 @@
   inline const QString& get##name() const { return items[index]; }
 
 namespace gitz {
+
   class GitLogItem {
     friend class GitLog;
 
