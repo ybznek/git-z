@@ -40,7 +40,7 @@ namespace gitz {
           QStringRef str = data.midRef(lastPos, newPos - lastPos );
           qDebug() << str;
           item.items[i] = str;
-          lastPos += newPos + separator_length;
+          lastPos = newPos + separator_length;
         }
 
         item.pack();
@@ -56,7 +56,7 @@ namespace gitz {
     const QString &getFormat() { return format; }
 
   protected:
-    const QString separator = "|@|@|@|";
+    const QString separator = "\x01\x02\x03";
     const int separator_length = separator.length();
     QString format;
     QString data;
