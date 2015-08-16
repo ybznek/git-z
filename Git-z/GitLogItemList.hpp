@@ -21,7 +21,7 @@ namespace gitz {
 
     inline int length() const { return internalLength; }
 
-    GitLogItem &operator[](int index) { return items[index]; }
+    const GitLogItem &operator[](int index) const { return items[index]; }
 
     inline Iterator begin() { return items.begin(); }
     inline Iterator end() { return items.begin() + internalLength; }

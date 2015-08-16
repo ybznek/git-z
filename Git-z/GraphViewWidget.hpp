@@ -24,21 +24,29 @@ public:
         int h=this->geometry().height();
         p.setPen(Qt::green);
         p.drawLine(0,0,w,h);
-        int i=0;
         qDebug() << "len" << log->length();
-        for(const GitLogItem& it : *log){
-                p.drawText(20,20*i, it.getCommitHash());
-                p.drawText(20,20*i, it.getCommitHash());
+        int length=log->length();
+        int pos=0;
+        p.setFont(QFont("arial",20-2));
+        for (int i=scroll;i<length;++i){
+            ++pos;
+               const GitLogItem& it = (*log)[i];
+                p.drawText(20,20*pos, it.getCommitHash());
                 qDebug() << it.getCommitHash();
                 ++i;
         }
+}
 
-    }
 signals:
 
 public slots:
+    void onScroll(int scroll) {
+        this->scroll = scroll;
+        repaint();
+    }
 protected:
-        const GitLog* log=nullptr;
+        int scroll = 0;
+        const GitLog* log = nullptr;
         const QBrush backgroundBrush{QColor{255,255,255}};
 };
 
