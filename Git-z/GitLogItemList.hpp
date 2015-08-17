@@ -1,7 +1,7 @@
 #ifndef GITLOGITEMLIST_HPP
 #define GITLOGITEMLIST_HPP
 #include "GitLogItem.hpp"
-#include <QList>
+#include <vector>
 
 namespace gitz {
   /**
@@ -9,32 +9,32 @@ namespace gitz {
    */
   class GitLogItemList {
   protected:
-    using tList = QList<GitLogItem>;
+    using tList = std::vector<GitLogItem>;
 
   public:
-    using Iterator = tList::Iterator;
-    using ConstIterator = tList::ConstIterator;
+    using Iterator = tList::iterator;
+    using ConstIterator = tList::const_iterator;
+    using sizeType = tList::size_type;
 
-    GitLogItemList() { prereserve(); }
+    GitLogItemList() {}
 
     inline void clear() { internalLength = 0; }
 
     GitLogItem &append();
 
-    inline int length() const { return internalLength; }
+    inline sizeType length() const { return internalLength; }
 
     const GitLogItem &operator[](int index) const { return items[index]; }
 
     inline Iterator begin() { return items.begin(); }
     inline Iterator end() { return items.begin() + internalLength; }
 
-    inline ConstIterator begin() const { return items.constBegin(); }
-    inline ConstIterator end() const { return items.constBegin() + internalLength; }
+    inline ConstIterator begin() const { return items.cbegin(); }
+    inline ConstIterator end() const { return items.cbegin() + internalLength; }
 
 
   protected:
-    inline void prereserve() { items.reserve(internalLength + 100); }
-    int internalLength = 0;
+    sizeType internalLength = 0;
     tList items;
   };
 }

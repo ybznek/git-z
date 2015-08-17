@@ -9,6 +9,8 @@
 #include <QScrollBar>
 #include <QTableView>
 #include <QStandardItemModel>
+#include "Git.hpp"
+#include "LockHolder.hpp"
 #include "GraphViewItemDelegate.hpp"
 using namespace gitz;
 class GraphViewWidget : public QTableView {
@@ -23,7 +25,7 @@ public:
 
   void setScrollbar(QScrollBar *scrollbar) { this->scrollbar = scrollbar; }
 
-  inline void setLog(const GitLog &log) { this->log = &log; }
+  inline void setGit(Git &git) { this->git = &git; }
 /*    void paintEvent(QPaintEvent* event) override
     {
 //QTableView::paintEvent(event);
@@ -58,21 +60,20 @@ public slots:
     qDebug() << "scrollChanged";
   }
   void notifyDataChanged() {
-    resizeTable();
+    auto const log = git->getLogView();
+    resizeTable(log->length());
     int row = 0;
-    for (const GitLogItem &logItem : *log) {
+    for (const GitLogItem &logItem : log) {
       model.item(row, 0)->setText(logItem.getSubject());
       model.item(row, 1)->setText(logItem.getCommitHash());
       model.item(row, 2)->setText(logItem.getAuthor());
       ++row;
     }
-
     //        repaint();
   }
 
 protected:
-  void resizeTable() { // todo mayby inserting items into begin of table is not effective
-    int newLength = log->length();
+  void resizeTable(int newLength) { // todo mayby inserting items into begin of table is not effective
     int length = model.rowCount();
     int diff = newLength - length;
     if (diff > 0) {
@@ -87,7 +88,7 @@ protected:
     }
   }
   int scroll = 0;
-  const GitLog *log = nullptr;
+  Git *git = nullptr;
   const QBrush backgroundBrush{QColor{255, 255, 255}};
   QScrollBar *scrollbar = nullptr;
   QStandardItemModel model;

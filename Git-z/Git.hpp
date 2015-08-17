@@ -7,7 +7,8 @@
 #include "GitBranchList.hpp"
 #include "CommitID.hpp"
 #include "RebaseList.hpp"
-
+#include <QMutex>
+#include "LockHolder.hpp"
 namespace gitz {
 
   class Git : public GitProcess {
@@ -16,7 +17,8 @@ namespace gitz {
   public:
     Git(const QString &executable) { insertProcessEnvironment("GIT_SEQUENCE_EDITOR", executable + " edit"); }
     using tRebaseCallback = std::function<void(Git &, RebaseList &)>;
-    const GitLog &getLogView() const { return log; }
+    inline LockHolder<const GitLog> getLogView() { return LockHolder<const GitLog>{logMtx, log}; }
+
 
   public slots:
     void commit(const QString &message, const QStringList &files, bool amend = false);
@@ -40,6 +42,7 @@ namespace gitz {
     void parseStatus();
     QString currentBranch;
     GitLog log;
+    QMutex logMtx;
   };
 }
 #endif // GIT_HPP

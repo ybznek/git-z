@@ -3,7 +3,7 @@
 
 LogView::LogView(Git &git, QWidget *parent) : QDialog{parent}, git{git}, ui{new Ui::LogView} {
   ui->setupUi(this);
-  ui->widget->setLog(git.getLogView());
+  ui->widget->setGit(git);
   QObject::connect(&git, SIGNAL(onLogUpdated()), this, SLOT(updateLog()));
 
   QObject::connect(ui->pushButton, SIGNAL(clicked(bool)), &git, SLOT(getLog()));

@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     GitLogItemList.cpp \
     GraphViewWidget.cpp \
     GitStdIO.cpp \
-    GraphViewItemDelegate.cpp
+    GraphViewItemDelegate.cpp \
+    LockHolder.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -69,7 +70,8 @@ HEADERS  += \
     CommitHash.hpp \
     GitLogItemList.hpp \
     GraphViewWidget.hpp \
-    GraphViewItemDelegate.hpp
+    GraphViewItemDelegate.hpp \
+    LockHolder.hpp
 
 FORMS    += mainwindow.ui \
     LogView.ui

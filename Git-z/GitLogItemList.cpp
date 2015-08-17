@@ -2,11 +2,10 @@
 
 
 gitz::GitLogItem &gitz::GitLogItemList::append() {
-  if (items.length() > internalLength) {
+  if (items.size() > internalLength) {
     return items[internalLength++];
   } else {
-    prereserve();
-    items.append(GitLogItem{});
+    items.push_back(GitLogItem());
     ++internalLength;
     return items.back();
   }
