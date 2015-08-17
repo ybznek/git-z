@@ -1,7 +1,6 @@
 #ifndef LOCKHOLDER_HPP
 #define LOCKHOLDER_HPP
 #include <QMutex>
-#include <QDebug>
 namespace gitz {
 
 
@@ -11,24 +10,30 @@ namespace gitz {
    */
   class LockHolder {
   public:
-    inline LockHolder(QMutex &mtx, X &val) : mtx{mtx}, val{val} { mtx.lock(); }
-    inline X *operator->() { return &val; }
-    inline const X *operator->() const { return &val; }
+    inline LockHolder(QMutex &mtx, X &obj) : mtx{mtx}, obj{obj} { mtx.lock(); }
+    inline X *operator->() { return &obj; }
+    inline const X *operator->() const { return &obj; }
 
-    inline const auto begin() const { return val.begin(); }
-    inline const auto end() const { return val.end(); }
+    inline X &operator*() { return obj; }
+    inline const X &operator*() const { return obj; }
 
-    inline auto begin() { return val.begin(); }
-    inline auto end() { return val.end(); }
+    inline const auto begin() const { return obj.begin(); }
+    inline const auto end() const { return obj.end(); }
 
-    const X &operator[](int index) const { return val[index]; }
-    X &operator[](int index) { return val[index]; }
+    inline auto begin() { return obj.begin(); }
+    inline auto end() { return obj.end(); }
+
+    inline const X &operator[](int index) const { return obj[index]; }
+    inline X &operator[](int index) { return obj[index]; }
+
+    inline operator X &() { return obj; }
+    inline operator const X &() const { return obj; }
 
     inline ~LockHolder() { mtx.unlock(); }
 
   private:
     QMutex &mtx;
-    X &val;
+    X &obj;
   };
 }
 #endif // LOCKHOLDER_HPP

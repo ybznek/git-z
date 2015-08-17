@@ -91,9 +91,9 @@ void Git::interactiveRebase(CommitID commit, tRebaseCallback cb) {
 void Git::getLog() {
   A a;
   a << "log";
-  a << ("--pretty=format:" + log.getFormat());
+  a << ("--pretty=format:" + log.obj.getFormat());
   addTask(a, [this]() {
-    log << readStandardOutput();
+    log.obj << readStandardOutput();
     qDebug() << "stahl jsem graf";
     emit onLogUpdated();
   });
