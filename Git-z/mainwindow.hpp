@@ -7,7 +7,9 @@
 #include <GitBranchList.hpp>
 #include <RebaseList.hpp>
 #include "LogView.hpp"
+#include "FileTreePresenter.hpp"
 using namespace gitz;
+using namespace gitz::widget;
 namespace Ui {
   class MainWindow;
 }
@@ -34,7 +36,7 @@ protected slots:
     emit git.getLog();
   }
   void onBranchesUpdated();
-  void fileListUpdated();
+
   void onCommit();
   void setBranch(QModelIndex, QModelIndex);
   void renameCurrentBranch(QModelIndex, QModelIndex, QVector<int>);
@@ -51,13 +53,14 @@ protected slots:
   }
 
 private:
-  Ui::MainWindow *ui;
+  Ui::MainWindow *ui=nullptr;
   Git git;
   LogView logView{git, this};
   QStringList strlist;
   QStringListModel strlistModel;
   QStringListModel strlistModel2;
   GitFileList fileList;
+  FileTreePresenter* fileTreePresenter=nullptr;
 };
 
 #endif // MAINWINDOW_HPP

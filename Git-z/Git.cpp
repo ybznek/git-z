@@ -136,14 +136,14 @@ void Git::writeRebaseList(RebaseList &list) {
 void Git::parseStatus() {
 
   QByteArray all = readStandardOutput();
-  QList<QByteArray>items = all.split('\0');
+  QList<QByteArray> items = all.split('\0');
   items.pop_back(); // remove last empty item
 
 
   LockHolder<GitFileList> list = fileList.getLock();
   list->clear();
-  for (const QString &item:items){
-   // https://www.kernel.org/pub/software/scm/git/docs/git-status.html
+  for (const QString &item : items) {
+    // https://www.kernel.org/pub/software/scm/git/docs/git-status.html
     GitFile::state fileState;
     if (item.startsWith("??")) {
       fileState = GitFile::state::CREATED;

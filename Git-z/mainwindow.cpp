@@ -7,6 +7,7 @@
 MainWindow::MainWindow(const QString &executable, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), git{executable} {
   ui->setupUi(this);
+  fileTreePresenter = new FileTreePresenter{git, ui->fileTree,ui->fileTree};
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
 
   logView.setModal(true);
@@ -17,7 +18,6 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   QObject::connect(&git, SIGNAL(onError(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onCommand(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onBranchesUpdated()), this, SLOT(onBranchesUpdated()));
-  QObject::connect(&git, SIGNAL(onStatusUpdated()), this, SLOT(fileListUpdated()));
 
   QObject::connect(ui->newBranchEdit, SIGNAL(returnPressed()), this, SLOT(newBranch()));
 
@@ -47,37 +47,6 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 }
 
 MainWindow::~MainWindow() { delete ui; }
-
-void MainWindow::fileListUpdated() {
-  qDebug() << "file list";
-  this->fileList = *(git.getFileList());
-  this->strlist.clear();
-  for (GitFile file : this->fileList) {
-    QString state;
-    switch (file.getState()) {
-    case GitFile::CREATED:
-      state = "CREATED";
-      break;
-    case GitFile::MODIFIED:
-      state = "MODIFIED";
-      break;
-    case GitFile::REMOVED:
-      state = "REMOVED";
-      break;
-    case GitFile::UNKNOWN:
-      state = "NOBODY KNOWS";
-      break;
-    }
-    this->strlist.append("<<" + state + ">>\t" + file.getFilepath());
-    QTreeWidgetItem* item = new QTreeWidgetItem{};
-    item->setText(0,file.getFilepath());
-    this->ui->filesTree->addTopLevelItem(item);
-  }
-  this->strlistModel.setStringList(this->strlist);
-
-
-
-}
 
 void MainWindow::onCommit() {
   qDebug() << "commit";

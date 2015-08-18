@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     LockableObject.cpp \
     GraphViewModel.cpp \
     ReusableList.cpp \
-    GraphItem.cpp
+    GraphItem.cpp \
+    FileTreePresenter.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -79,7 +80,8 @@ HEADERS  += \
     LockableObject.hpp \
     GraphViewModel.hpp \
     ReusableList.hpp \
-    GraphItem.hpp
+    GraphItem.hpp \
+    FileTreePresenter.hpp
 
 FORMS    += mainwindow.ui \
     LogView.ui
