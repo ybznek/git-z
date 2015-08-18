@@ -25,7 +25,7 @@ namespace gitz {
     inline GitLogItemList::ConstIterator begin() const { return items.begin(); }
     inline GitLogItemList::ConstIterator end() const { return items.end(); }
 
-    inline int length() const { return items.length(); }
+    inline int length() const { return items.size(); }
     inline const GitLogItem &operator[](int index) const { return items[index]; }
     inline const QString &getFormat() { return format; }
 

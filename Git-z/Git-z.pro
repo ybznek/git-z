@@ -43,7 +43,10 @@ SOURCES += main.cpp\
     GitStdIO.cpp \
     GraphViewItemDelegate.cpp \
     LockHolder.cpp \
-    LockableObject.cpp
+    LockableObject.cpp \
+    GraphViewModel.cpp \
+    ReusableList.cpp \
+    GraphItem.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -73,7 +76,10 @@ HEADERS  += \
     GraphViewWidget.hpp \
     GraphViewItemDelegate.hpp \
     LockHolder.hpp \
-    LockableObject.hpp
+    LockableObject.hpp \
+    GraphViewModel.hpp \
+    ReusableList.hpp \
+    GraphItem.hpp
 
 FORMS    += mainwindow.ui \
     LogView.ui
