@@ -11,19 +11,21 @@
 #include "common.hpp"
 
 namespace gitz {
-  class GitEdit : public QObject {
-    Q_OBJECT
-  public:
-    GitEdit(const QString &filename) : file{filename}, fileStream{&file} {}
-    int run();
+  namespace editor {
+    class GitEdit : public QObject {
+      Q_OBJECT
+    public:
+      GitEdit(const QString &filename) : file{filename}, fileStream{&file} {}
+      int run();
 
-    void printFile();
+      void printFile();
 
-  protected:
-    QFile file;
-    QTextStream fileStream;
-    GitStdIO stdio;
-  };
+    protected:
+      QFile file;
+      QTextStream fileStream;
+      GitStdIO stdio;
+    };
+  }
 }
 
 #endif // GITEDIT_HPP

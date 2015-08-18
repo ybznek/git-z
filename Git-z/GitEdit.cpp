@@ -1,7 +1,7 @@
 #include "GitEdit.hpp"
 
 
-void gitz::GitEdit::printFile() {
+void gitz::editor::GitEdit::printFile() {
   while (!fileStream.atEnd()) {
     QString line;
 
@@ -14,7 +14,7 @@ void gitz::GitEdit::printFile() {
   stdio.flush();
 }
 
-int gitz::GitEdit::run() {
+int gitz::editor::GitEdit::run() {
 
   if (!file.open(QFile::ReadWrite)) {
     return false;

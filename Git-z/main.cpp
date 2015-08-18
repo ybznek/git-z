@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   qDebug() << args;
   if ((args.size() == 3) && (args.at(1) == "edit")) {
     QString filename{args.at(2)};
-    GitEdit edit{filename};
+    editor::GitEdit edit{filename};
 
     return edit.run();
 

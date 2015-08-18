@@ -2,6 +2,7 @@
 #define COMMON_HPP
 
 #include <functional>
+
 namespace gitz {
   using tGitCallback = std::function<void()>;
   const tGitCallback tGitCallback_NONE = ([]() { ; });

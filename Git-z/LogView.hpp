@@ -4,8 +4,9 @@
 #include <QDialog>
 #include "Git.hpp"
 #include "GitLog.hpp"
-
+#include "GraphViewWidget.hpp"
 using namespace gitz;
+using namespace gitz::widget;
 
 namespace Ui {
   class LogView;

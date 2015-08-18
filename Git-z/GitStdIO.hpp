@@ -9,22 +9,24 @@
 
 #include <QDebug>
 namespace gitz {
-  class GitStdIO : public QObject {
-    Q_OBJECT
-  public:
-    GitStdIO();
+  namespace editor {
+    class GitStdIO : public QObject {
+      Q_OBJECT
+    public:
+      GitStdIO();
 
-    GitStdIO &operator<<(const QString &str);
-    GitStdIO &operator<<(char chr);
-    bool operator>>(QString &str);
+      GitStdIO &operator<<(const QString &str);
+      GitStdIO &operator<<(char chr);
+      bool operator>>(QString &str);
 
-    inline void flush() { output.flush(); }
+      inline void flush() { output.flush(); }
 
-  protected:
-    QFile input;
-    QFile output;
-    QTextStream inStream;
-  };
+    protected:
+      QFile input;
+      QFile output;
+      QTextStream inStream;
+    };
+  }
 }
 
 #endif // GITSTDIO_HPP

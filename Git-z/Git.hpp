@@ -16,6 +16,7 @@
   inline LockHolder<type> get##name() { return LockHolder<type>(var.mtx, var.obj); }
 
 namespace gitz {
+  using namespace generic;
 
   class Git : public GitProcess {
     Q_OBJECT

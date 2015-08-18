@@ -3,6 +3,6 @@
 #include "GitLogItem.hpp"
 #include "ReusableList.hpp"
 namespace gitz {
-  using GitLogItemList = ReusableList<GitLogItem>;
+  using GitLogItemList = generic::ReusableList<GitLogItem>;
 }
 #endif // GITLOGITEMLIST_HPP
