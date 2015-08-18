@@ -16,9 +16,8 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   QObject::connect(&git, SIGNAL(onError(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onError(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onCommand(QString)), ui->logView, SLOT(appendPlainText(QString)));
-  QObject::connect(&git, SIGNAL(onBranchesUpdated(GitBranchList)), this,
-                   SLOT(onBranchesUpdated(GitBranchList)));
-  QObject::connect(&git, SIGNAL(onStatusUpdated(GitFileList)), this, SLOT(fileListUpdated(GitFileList)));
+  QObject::connect(&git, SIGNAL(onBranchesUpdated()), this, SLOT(onBranchesUpdated()));
+  QObject::connect(&git, SIGNAL(onStatusUpdated()), this, SLOT(fileListUpdated()));
 
   QObject::connect(ui->newBranchEdit, SIGNAL(returnPressed()), this, SLOT(newBranch()));
 
@@ -49,9 +48,9 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::fileListUpdated(const GitFileList &fileList) {
+void MainWindow::fileListUpdated() {
   qDebug() << "file list";
-  this->fileList = fileList;
+  this->fileList = *(git.getFileList());
   this->strlist.clear();
   for (GitFile file : this->fileList) {
     QString state;
@@ -106,10 +105,11 @@ void MainWindow::newBranch() {
   edit->clear();
 }
 
-void MainWindow::onBranchesUpdated(const GitBranchList &branchList) {
+void MainWindow::onBranchesUpdated() {
+  LockHolder<const GitBranchList> branchList = git.getBranchList();
   qDebug() << "mam branche";
   QStringList list;
-  QString title = branchList.at(branchList.getSelected()).getName();
+  QString title = branchList->at(branchList->getSelected()).getName();
   this->setWindowTitle(title);
   for (GitBranch b : branchList) {
     list << b.getName();
@@ -118,6 +118,6 @@ void MainWindow::onBranchesUpdated(const GitBranchList &branchList) {
 
   this->strlistModel2.setStringList(list);
 
-  QModelIndex index = ui->branchView->model()->index(branchList.getSelected(), 0);
+  QModelIndex index = ui->branchView->model()->index(branchList->getSelected(), 0);
   ui->branchView->selectionModel()->select(index, QItemSelectionModel::Select);
 }

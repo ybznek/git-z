@@ -10,6 +10,11 @@
 #include <QMutex>
 #include "LockHolder.hpp"
 #include "LockableObject.hpp"
+
+
+#define LOCK_GETTER(type, name, var)                                                                         \
+  inline LockHolder<type> get##name() { return LockHolder<type>(var.mtx, var.obj); }
+
 namespace gitz {
 
   class Git : public GitProcess {
@@ -19,8 +24,10 @@ namespace gitz {
     Git(const QString &executable) { insertProcessEnvironment("GIT_SEQUENCE_EDITOR", executable + " edit"); }
     using tRebaseCallback = std::function<void(Git &, RebaseList &)>;
 
-    inline LockHolder<const GitLog> getLogView() { return LockHolder<const GitLog>(log.mtx, log.obj); }
 
+    LOCK_GETTER(const GitLog, LogView, log);
+    LOCK_GETTER(const GitFileList, FileList, fileList);
+    LOCK_GETTER(const GitBranchList, BranchList, branchList);
 
   public slots:
     void commit(const QString &message, const QStringList &files, bool amend = false);
@@ -33,8 +40,8 @@ namespace gitz {
     void getLog();
 
   signals:
-    void onBranchesUpdated(const GitBranchList &branchList);
-    void onStatusUpdated(const GitFileList &list);
+    void onBranchesUpdated();
+    void onStatusUpdated();
     void onLogUpdated();
 
 
@@ -44,7 +51,12 @@ namespace gitz {
     void parseStatus();
     QString currentBranch;
     LockableObject<GitLog> log;
+    LockableObject<GitFileList> fileList;
+    LockableObject<GitBranchList> branchList;
     QMutex logMtx;
   };
 }
+
+
+#undef LOCK_GETTER
 #endif // GIT_HPP

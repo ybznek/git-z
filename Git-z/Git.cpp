@@ -17,21 +17,23 @@ void Git::getBranches() {
   A a;
   a << "branch";
   addTask(a, [this]() {
-    GitBranchList list;
+
+    LockHolder<GitBranchList> list = branchList.getLock();
+    list->clear();
     while (!isOutputEnd()) {
       QString line{readOutputLine()};
       QString branchName{line.mid(2)};
       if (line.at(0) == '*') {
-        list.setSelected(list.size());
+        list->setSelected(list->size());
         currentBranch = branchName;
       }
 
-      list.append(branchName);
-      qDebug() << list.at(list.size() - 1).getName();
-      qDebug() << list.getSelected();
+      list->append(branchName);
+      qDebug() << list->at(list->size() - 1).getName();
+      qDebug() << list->getSelected();
     }
     qDebug() << "emitim branche";
-    onBranchesUpdated(list);
+    onBranchesUpdated();
   });
 }
 
@@ -129,7 +131,8 @@ void Git::writeRebaseList(RebaseList &list) {
 }
 
 void Git::parseStatus() {
-  GitFileList list;
+  LockHolder<GitFileList> list = fileList.getLock();
+  list->clear();
   while (!isOutputEnd()) {
     QString line{readOutputLine()};
     qDebug() << line;
@@ -146,10 +149,10 @@ void Git::parseStatus() {
     }
     QString filename = line.mid(3);
 
-    list.append(GitFile{filename, fileState});
+    list->append(GitFile{filename, fileState});
   }
   qDebug() << "emitim status\n";
-  onStatusUpdated(list);
+  onStatusUpdated();
 }
 
 void Git::commit(const QString &message, const QStringList &files, bool amend) {

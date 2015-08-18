@@ -33,8 +33,8 @@ protected slots:
     logView.setVisible(true);
     emit git.getLog();
   }
-  void onBranchesUpdated(const GitBranchList &branchList);
-  void fileListUpdated(const GitFileList &fileList);
+  void onBranchesUpdated();
+  void fileListUpdated();
   void onCommit();
   void setBranch(QModelIndex, QModelIndex);
   void renameCurrentBranch(QModelIndex, QModelIndex, QVector<int>);
