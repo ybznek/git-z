@@ -68,9 +68,15 @@ void MainWindow::fileListUpdated() {
       state = "NOBODY KNOWS";
       break;
     }
-    this->strlist.append("<<" + state + ">>\t" + file.getFilename());
+    this->strlist.append("<<" + state + ">>\t" + file.getFilepath());
+    QTreeWidgetItem* item = new QTreeWidgetItem{};
+    item->setText(0,file.getFilepath());
+    this->ui->filesTree->addTopLevelItem(item);
   }
   this->strlistModel.setStringList(this->strlist);
+
+
+
 }
 
 void MainWindow::onCommit() {

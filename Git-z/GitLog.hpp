@@ -2,11 +2,11 @@
 #define GITGRAPH_HPP
 
 #include <QString>
-#include "GitLogFormat.hpp"
 #include <QDebug>
+#include <QObject>
+#include "GitLogFormat.hpp"
 #include "GitLogItemList.hpp"
 #include "GitLogItem.hpp"
-#include <QObject>
 namespace gitz {
 
   class GitLog {

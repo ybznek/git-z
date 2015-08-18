@@ -1,13 +1,14 @@
 #ifndef GIT_HPP
 #define GIT_HPP
+#include <QMutex>
+#include <QObject>
+
 #include "GitLog.hpp"
 #include "GitProcess.hpp"
-#include <QObject>
 #include "GitFileList.hpp"
 #include "GitBranchList.hpp"
 #include "CommitID.hpp"
 #include "RebaseList.hpp"
-#include <QMutex>
 #include "LockHolder.hpp"
 #include "LockableObject.hpp"
 

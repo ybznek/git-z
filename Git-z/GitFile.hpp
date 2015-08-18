@@ -1,18 +1,22 @@
 #ifndef GITFILE_HPP
 #define GITFILE_HPP
 #include <QString>
+#include <QFileInfo>
 namespace gitz {
   class GitFile {
   public:
     enum state { UNKNOWN, MODIFIED, CREATED, REMOVED };
     GitFile() {}
-    GitFile(QString filename, state s) : filename{filename}, s{s} {}
+    GitFile(QString filepath, state s) : info{filepath}, s{s} {
+
+    }
 
     state getState() const { return s; }
-    const QString &getFilename() const { return filename; }
-
+    const QString getFilepath() const { return info.filePath(); }
+    const QString getFilename() const {return info.fileName();}
+    const QString getPath() const {return info.path();}
   protected:
-    QString filename;
+    QFileInfo info;
     enum state s = UNKNOWN;
   };
 }

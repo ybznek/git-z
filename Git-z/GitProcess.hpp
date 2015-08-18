@@ -41,8 +41,8 @@ namespace gitz {
     QString blockingReadOutputLine();
 
     inline void setExecutable(const QString &newExec) { executable = newExec; }
-    inline QString readErrorOutput() { return QString{process.readAllStandardError()}; }
-    inline QString readStandardOutput() { return QString{process.readAllStandardOutput()}; }
+    inline QByteArray readErrorOutput() { return process.readAllStandardError(); }
+    inline QByteArray readStandardOutput() { return process.readAllStandardOutput(); }
     void closeWriteChannel();
     void insertProcessEnvironment(const QString &name, const QString &value);
 

@@ -9,7 +9,10 @@ void Git::getIndex() {
 
   A a;
   a << "status";
-  a << "-s";
+  a << "--ignored";
+  a << "--untracked-files=all";
+  a << "--porcelain";
+  a << "-z";
   addTask(a, [this]() { this->parseStatus(); });
 }
 
@@ -131,23 +134,27 @@ void Git::writeRebaseList(RebaseList &list) {
 }
 
 void Git::parseStatus() {
+
+  QByteArray all = readStandardOutput();
+  QList<QByteArray>items = all.split('\0');
+  items.pop_back(); // remove last empty item
+
+
   LockHolder<GitFileList> list = fileList.getLock();
   list->clear();
-  while (!isOutputEnd()) {
-    QString line{readOutputLine()};
-    qDebug() << line;
+  for (const QString &item:items){
+   // https://www.kernel.org/pub/software/scm/git/docs/git-status.html
     GitFile::state fileState;
-
-    if (line.startsWith("??")) {
+    if (item.startsWith("??")) {
       fileState = GitFile::state::CREATED;
-    } else if (line.startsWith(" M")) {
+    } else if (item.startsWith(" M")) {
       fileState = GitFile::state::MODIFIED;
-    } else if (line.startsWith(" D")) {
+    } else if (item.startsWith(" D")) {
       fileState = GitFile::state::REMOVED;
     } else {
       fileState = GitFile::state::UNKNOWN;
     }
-    QString filename = line.mid(3);
+    QString filename = item.mid(3);
 
     list->append(GitFile{filename, fileState});
   }
