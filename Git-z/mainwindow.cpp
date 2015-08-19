@@ -7,7 +7,7 @@
 MainWindow::MainWindow(const QString &executable, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), git{executable} {
   ui->setupUi(this);
-  fileTreePresenter = new FileTreePresenter{git, ui->fileTree,ui->fileTree};
+  ui->fileView->setModel(&fileViewModel);
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
 
   logView.setModal(true);
@@ -32,7 +32,8 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
   QObject::connect(ui->logViewButton, SIGNAL(clicked(bool)), this, SLOT(showLogView()));
 
-  emit ui->logViewButton->click();
+  // logview
+  //  emit ui->logViewButton->click();
 
   ui->indexView->setModel(&strlistModel);
 

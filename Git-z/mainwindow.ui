@@ -57,27 +57,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="fileTree">
-    <property name="geometry">
-     <rect>
-      <x>335</x>
-      <y>74</y>
-      <width>319</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>16</width>
-      <height>16</height>
-     </size>
-    </property>
-    <column>
-     <property name="text">
-      <string notr="true">1</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QLineEdit" name="commitMessage">
     <property name="geometry">
      <rect>
@@ -177,6 +156,16 @@
     </property>
     <property name="placeholderText">
      <string>enter name of new branch and press enter</string>
+    </property>
+   </widget>
+   <widget class="QTreeView" name="fileView">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>80</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
     </property>
    </widget>
   </widget>

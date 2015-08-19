@@ -12,9 +12,15 @@ namespace gitz {
     public:
       GraphViewModel(QObject *parent = nullptr) : QAbstractTableModel{parent} { ; }
       int rowCount(const QModelIndex &parent = QModelIndex()) const {
+
         qDebug() << "model vraci" << list.size();
         return list.size();
       }
+
+      QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const {
+        return "header";
+      }
+
       int columnCount(const QModelIndex &parent = QModelIndex()) const { return 4; }
       QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const { return "ahoj"; }
 

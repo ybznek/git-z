@@ -47,7 +47,7 @@ SOURCES += main.cpp\
     GraphViewModel.cpp \
     ReusableList.cpp \
     GraphItem.cpp \
-    FileTreePresenter.cpp
+    GitFileViewModel.cpp
 
 HEADERS  += \
     GitProcess.hpp \
@@ -81,7 +81,7 @@ HEADERS  += \
     GraphViewModel.hpp \
     ReusableList.hpp \
     GraphItem.hpp \
-    FileTreePresenter.hpp
+    GitFileViewModel.hpp
 
 FORMS    += mainwindow.ui \
     LogView.ui
