@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QObject>
 MainWindow::MainWindow(const QString &executable, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), git{executable} {
+    : QMainWindow(parent), ui(new Ui::MainWindow), git{executable}, logView{git}, fileViewModel{git} {
   ui->setupUi(this);
   ui->fileView->setModel(&fileViewModel);
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");

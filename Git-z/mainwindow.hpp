@@ -55,12 +55,12 @@ protected slots:
 private:
   Ui::MainWindow *ui = nullptr;
   Git git;
-  LogView logView{git};
+  LogView logView;
   QStringList strlist;
   QStringListModel strlistModel;
   QStringListModel strlistModel2;
   GitFileList fileList;
-  GitFileViewModel fileViewModel{git};
+  GitFileViewModel fileViewModel;
 };
 
 #endif // MAINWINDOW_HPP

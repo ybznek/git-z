@@ -6,17 +6,25 @@ namespace gitz {
   class GitFile {
   public:
     enum state { UNKNOWN, MODIFIED, CREATED, REMOVED };
-    GitFile() {}
-    GitFile(QString filepath, state s) : info{filepath}, s{s} {}
+    inline GitFile() {}
+    GitFile(QString filePath, state s) : s{s}, filePath{filePath} {
+      QFileInfo info{filePath};
+      fileName = info.fileName();
+      path = info.path();
+    }
 
-    state getState() const { return s; }
-    const QString getFilepath() const { return info.filePath(); }
-    const QString getFilename() const { return info.fileName(); }
-    const QString getPath() const { return info.path(); }
+    inline state getState() const { return s; }
+    inline bool operator==(const GitFile &f) const { return (f.filePath == filePath); }
+    inline void setState(state newState) { s = newState; }
+    inline const QString &getFilepath() const { return filePath; }
+    inline const QString &getFilename() const { return fileName; }
+    inline const QString &getPath() const { return path; }
 
   protected:
-    QFileInfo info;
     enum state s = UNKNOWN;
+    QString filePath;
+    QString fileName;
+    QString path;
   };
 }
 #endif // GITFILE_HPP
