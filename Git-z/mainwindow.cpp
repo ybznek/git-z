@@ -1,6 +1,6 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
-#include "GitFile.hpp"
+#include "gitz/GitFile.hpp"
 #include <QItemSelectionModel>
 #include <QDebug>
 #include <QObject>
@@ -49,6 +49,21 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
+void MainWindow::focusChanged(QWidget *old, QWidget *now) {
+  Q_UNUSED(now);
+  if (old == nullptr) {
+    emit git.getIndex();
+    emit git.getBranches();
+  }
+}
+
+void MainWindow::enable() { this->setEnabled(true); }
+
+void MainWindow::showLogView() {
+  logView.setVisible(true);
+  emit git.getLog();
+}
+
 void MainWindow::onCommit() {
   qDebug() << "commit";
   QStringList files;
@@ -79,6 +94,17 @@ void MainWindow::newBranch() {
   QLineEdit *edit = ui->newBranchEdit;
   git.createNewBranch(edit->text());
   edit->clear();
+}
+
+void MainWindow::onRebase() {
+  git.interactiveRebase("56fc4247dacb186506ef6902771235c4490bdf3b", [](Git &git, RebaseList &items) {
+    qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+    items.clear();
+    items.append("ddcbb8b9497d9d9fff675be29005010d811c8d01");
+    for (RebaseList::rebaseItem *item : items) {
+      qDebug() << item->commit << "op" << item->op;
+    }
+  });
 }
 
 void MainWindow::onBranchesUpdated() {

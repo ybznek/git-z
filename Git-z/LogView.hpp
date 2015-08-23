@@ -2,9 +2,9 @@
 #define LOGVIEW_HPP
 
 #include <QDialog>
-#include "Git.hpp"
-#include "GitLog.hpp"
-#include "GraphViewWidget.hpp"
+#include "gitz/Git.hpp"
+#include "gitz/GitLog.hpp"
+#include "gitz/widget/GraphViewWidget.hpp"
 using namespace gitz;
 using namespace gitz::widget;
 

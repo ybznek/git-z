@@ -1,11 +1,11 @@
 #include "mainwindow.hpp"
 #include <QApplication>
-#include "GitFileList.hpp"
+#include "gitz/GitFileList.hpp"
 #include <QDebug>
 #include <QFile>
-#include "GitEdit.hpp"
-#include "RebaseList.hpp"
-#include "GitLog.hpp"
+#include "gitz/editor/GitEdit.hpp"
+#include "gitz/RebaseList.hpp"
+#include "gitz/GitLog.hpp"
 
 #define REGISTER_META(name) qRegisterMetaType<name>(#name)
 

@@ -16,72 +16,83 @@ CONFIG += C++14
 QMAKE_CXXFLAGS_RELEASE += -flto -s
 QMAKE_LFLAGS_RELEASE += -flto -s
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    GitProcess.cpp \
-    GitFileList.cpp \
-    GitFile.cpp \
-    GitBranchList.cpp \
-    GitBranch.cpp \
-    GitTaskQueue.cpp \
-    TaskItem.cpp \
-    TaskQueue.cpp \
-    TaskThread.cpp \
-    Git.cpp \
-    GitEdit.cpp \
-    GitStdinout.cpp \
-    CommitID.cpp \
-    RebaseList.cpp \
-    RebaseOperation.cpp \
+SOURCES += \
+    gitz/widget/FileTree/FileTreeFile.cpp \
+    gitz/widget/FileTree/FileTreeItem.cpp \
+    gitz/CommitHash.cpp \
+    gitz/CommitID.cpp \
+    gitz/Git.cpp \
+    gitz/GitBranch.cpp \
+    gitz/GitBranchList.cpp \
+    gitz/GitCommit.cpp \
+    gitz/GitFile.cpp \
+    gitz/GitFileList.cpp \
+    gitz/GitLog.cpp \
+    gitz/GitLogItem.cpp \
+    gitz/GitLogItemList.cpp \
+    gitz/GitProcess.cpp \
+    gitz/GitTaskQueue.cpp \
+    gitz/GraphItem.cpp \
+    gitz/GraphViewItemDelegate.cpp \
+    gitz/GraphViewModel.cpp \
+    gitz/LockableObject.cpp \
+    gitz/LockHolder.cpp \
+    gitz/RebaseList.cpp \
+    gitz/RebaseOperation.cpp \
+    gitz/ReusableList.cpp \
+    gitz/TaskItem.cpp \
+    gitz/TaskQueue.cpp \
+    gitz/TaskThread.cpp \
     LogView.cpp \
-    GitCommit.cpp \
-    GitLog.cpp \
-    GitLogItem.cpp \
-    CommitHash.cpp \
-    GitLogItemList.cpp \
-    GraphViewWidget.cpp \
-    GitStdIO.cpp \
-    GraphViewItemDelegate.cpp \
-    LockHolder.cpp \
-    LockableObject.cpp \
-    GraphViewModel.cpp \
-    ReusableList.cpp \
-    GraphItem.cpp \
-    GitFileViewModel.cpp
+    main.cpp \
+    mainwindow.cpp \
+    gitz/editor/GitEdit.cpp \
+    gitz/editor/GitStdIO.cpp \
+    gitz/widget/FileTree/FileTreeFolder.cpp \
+    gitz/widget/FileTree/FileTreeRoot.cpp \
+    gitz/widget/GitFileViewModel.cpp \
+    gitz/widget/GraphViewWidget.cpp
+
+
 
 HEADERS  += \
-    GitProcess.hpp \
-    mainwindow.hpp \
-    GitFileList.hpp \
-    GitFile.hpp \
-    GitBranchList.hpp \
-    GitBranch.hpp \
-    GitTaskQueue.hpp \
-    common.hpp \
-    TaskItem.hpp \
-    TaskQueue.hpp \
-    TaskThread.hpp \
-    Git.hpp \
-    GitEdit.hpp \
-    GitStdIO.hpp \
-    CommitID.hpp \
-    RebaseList.hpp \
-    RebaseOperation.hpp \
+    gitz/widget/FileTree/FileTreeFile.hpp \
+    gitz/widget/FileTree/FileTreeItem.hpp \
+    gitz/CommitHash.hpp \
+    gitz/CommitID.hpp \
+    gitz/common.hpp \
+    gitz/Git.hpp \
+    gitz/GitBranch.hpp \
+    gitz/GitBranchList.hpp \
+    gitz/GitCommit.hpp \
+    gitz/GitFile.hpp \
+    gitz/GitFileList.hpp \
+    gitz/GitLog.hpp \
+    gitz/GitLogFormat.hpp \
+    gitz/GitLogItem.hpp \
+    gitz/GitLogItemList.hpp \
+    gitz/GitProcess.hpp \
+    gitz/GitTaskQueue.hpp \
+    gitz/GraphItem.hpp \
+    gitz/GraphViewItemDelegate.hpp \
+    gitz/GraphViewModel.hpp \
+    gitz/LockableObject.hpp \
+    gitz/LockHolder.hpp \
+    gitz/RebaseList.hpp \
+    gitz/RebaseOperation.hpp \
+    gitz/ReusableList.hpp \
+    gitz/TaskItem.hpp \
+    gitz/TaskQueue.hpp \
+    gitz/TaskThread.hpp \
     LogView.hpp \
-    GitCommit.hpp \
-    GitLogFormat.hpp \
-    GitLog.hpp \
-    GitLogItem.hpp \
-    CommitHash.hpp \
-    GitLogItemList.hpp \
-    GraphViewWidget.hpp \
-    GraphViewItemDelegate.hpp \
-    LockHolder.hpp \
-    LockableObject.hpp \
-    GraphViewModel.hpp \
-    ReusableList.hpp \
-    GraphItem.hpp \
-    GitFileViewModel.hpp
+    mainwindow.hpp \
+    gitz/editor/GitEdit.hpp \
+    gitz/editor/GitStdIO.hpp \
+    gitz/widget/FileTree/FileTreeFolder.hpp \
+    gitz/widget/FileTree/FileTreeRoot.hpp \
+    gitz/widget/GitFileViewModel.hpp \
+    gitz/widget/GraphViewWidget.hpp
+
 
 FORMS    += mainwindow.ui \
     LogView.ui
