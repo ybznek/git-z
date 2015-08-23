@@ -8,6 +8,7 @@ namespace gitz {
     class FileTreeRoot : public FileTreeItem, public QList<FileTreeFolder> {
     public:
       FileTreeItem *parent() override;
+      int count() const override;
     };
   }
 }

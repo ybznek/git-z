@@ -17,41 +17,33 @@ QMAKE_CXXFLAGS_RELEASE += -flto -s
 QMAKE_LFLAGS_RELEASE += -flto -s
 
 SOURCES += \
+    gitz/editor/GitEdit.cpp \
+    gitz/editor/GitStdIO.cpp \
     gitz/widget/FileTree/FileTreeFile.cpp \
+    gitz/widget/FileTree/FileTreeFolder.cpp \
     gitz/widget/FileTree/FileTreeItem.cpp \
+    gitz/widget/FileTree/FileTreeRoot.cpp \
+    gitz/widget/GitFileViewModel.cpp \
+    gitz/widget/GraphViewWidget.cpp \
     gitz/CommitHash.cpp \
-    gitz/CommitID.cpp \
     gitz/Git.cpp \
     gitz/GitBranch.cpp \
     gitz/GitBranchList.cpp \
     gitz/GitCommit.cpp \
     gitz/GitFile.cpp \
-    gitz/GitFileList.cpp \
     gitz/GitLog.cpp \
-    gitz/GitLogItem.cpp \
-    gitz/GitLogItemList.cpp \
     gitz/GitProcess.cpp \
     gitz/GitTaskQueue.cpp \
     gitz/GraphItem.cpp \
     gitz/GraphViewItemDelegate.cpp \
     gitz/GraphViewModel.cpp \
-    gitz/LockableObject.cpp \
-    gitz/LockHolder.cpp \
     gitz/RebaseList.cpp \
     gitz/RebaseOperation.cpp \
-    gitz/ReusableList.cpp \
     gitz/TaskItem.cpp \
-    gitz/TaskQueue.cpp \
     gitz/TaskThread.cpp \
     LogView.cpp \
     main.cpp \
-    mainwindow.cpp \
-    gitz/editor/GitEdit.cpp \
-    gitz/editor/GitStdIO.cpp \
-    gitz/widget/FileTree/FileTreeFolder.cpp \
-    gitz/widget/FileTree/FileTreeRoot.cpp \
-    gitz/widget/GitFileViewModel.cpp \
-    gitz/widget/GraphViewWidget.cpp
+    mainwindow.cpp
 
 
 

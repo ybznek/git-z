@@ -19,19 +19,24 @@ namespace gitz {
     public:
       GitFileViewModel(::gitz::Git &git);
 
-      bool hasIndex(int row, int column, const QModelIndex &parent) const;
-      QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+      QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
 
-      QModelIndex parent(const QModelIndex &child) const;
+      QModelIndex parent(const QModelIndex &child) const override;
 
-      QModelIndex sibling(int row, int column, const QModelIndex &idx) const;
-      int rowCount(const QModelIndex &parent = QModelIndex()) const;
-      int columnCount(const QModelIndex &parent = QModelIndex()) const;
-      bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
+      int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+      int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+      QVariant headerData(int section, Qt::Orientation orientation,
+                          int role = Qt::DisplayRole) const override;
 
-      QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+      QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-      QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+      Qt::ItemFlags flags(const QModelIndex &index) const override {
+        if (!index.isValid())
+          return 0;
+
+          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable
+                | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+      }
 
     public slots:
       void fileListUpdated();

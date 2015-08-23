@@ -5,9 +5,9 @@ gitz::widget::FileTreeFolder::FileTreeFolder(gitz::widget::FileTreeItem *parent)
 
 bool gitz::widget::FileTreeFolder::addFile(const gitz::GitFile &file) {
   for (FileTreeFile &f : files) {
-    if (f.giTreeFile == file) {
-      if (f.giTreeFile.getState() != file.getState()) {
-        f.giTreeFile.setState(file.getState());
+    if (f.gitTreeFile == file) {
+      if (f.gitTreeFile.getState() != file.getState()) {
+        f.gitTreeFile.setState(file.getState());
         return true;
       }
       return false;
@@ -23,3 +23,5 @@ bool gitz::widget::FileTreeFolder::operator==(const gitz::widget::FileTreeFolder
 }
 
 gitz::widget::FileTreeItem *gitz::widget::FileTreeFolder::parent() { return parentItem; }
+
+int gitz::widget::FileTreeFolder::count() const { return files.size(); }

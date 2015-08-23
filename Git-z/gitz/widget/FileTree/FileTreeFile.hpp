@@ -9,10 +9,11 @@ namespace gitz {
     class FileTreeFile : public FileTreeItem {
     public:
       FileTreeFile(const GitFile &file, FileTreeItem *parent);
-      virtual FileTreeItem *parent() override;
+      FileTreeItem *parent() override;
+      int count() const override;
       bool selected;
       bool valid;
-      GitFile giTreeFile;
+      GitFile gitTreeFile;
       FileTreeItem *parentItem;
     };
   }

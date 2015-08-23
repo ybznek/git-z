@@ -17,6 +17,7 @@ namespace gitz {
 
       bool operator==(const FileTreeFolder &f);
       FileTreeItem *parent() override;
+      int count() const override;
       FileTreeItem *parentItem;
       QString path;
       bool valid;
