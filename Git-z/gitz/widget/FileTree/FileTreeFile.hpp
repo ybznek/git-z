@@ -8,8 +8,9 @@ namespace gitz {
     class FileTreeFolder;
     class FileTreeFile : public FileTreeItem {
     public:
-      FileTreeFile(const GitFile &file, FileTreeItem *parent);
+      FileTreeFile(FileTreeItem *parent, const GitFile &file);
       FileTreeItem *parent() override;
+      const FileTreeItem *at(int index) const;
       int count() const override;
       bool selected;
       bool valid;

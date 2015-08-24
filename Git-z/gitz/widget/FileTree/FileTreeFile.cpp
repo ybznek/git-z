@@ -1,9 +1,14 @@
 #include "FileTreeFile.hpp"
+namespace gitz {
+  namespace widget {
 
+    FileTreeFile::FileTreeFile(FileTreeItem *parent, const gitz::GitFile &file)
+        : selected{false}, valid{true}, gitTreeFile{file}, parentItem{parent} {}
 
-gitz::widget::FileTreeFile::FileTreeFile(const gitz::GitFile &file, gitz::widget::FileTreeItem *parent)
-    : selected{false}, valid{true}, gitTreeFile{file}, parentItem{parent} {}
+    FileTreeItem *FileTreeFile::parent() { return parentItem; }
 
-gitz::widget::FileTreeItem *gitz::widget::FileTreeFile::parent() { return parentItem; }
+    const FileTreeItem *FileTreeFile::at(int index) const { return nullptr; }
 
-int gitz::widget::FileTreeFile::count() const { return 1; }
+    int FileTreeFile::count() const { return 1; }
+  }
+}

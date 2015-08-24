@@ -1,6 +1,15 @@
 #include "FileTreeRoot.hpp"
+#include <QDebug>
+namespace gitz {
+  namespace widget {
+    FileTreeItem *FileTreeRoot::parent() { return nullptr; }
 
+    int FileTreeRoot::count() const { return QList<FileTreeFolder>::size(); }
 
-gitz::widget::FileTreeItem *gitz::widget::FileTreeRoot::parent() { return static_cast<FileTreeItem *>(this); }
-
-int gitz::widget::FileTreeRoot::count() const { return QList<FileTreeFolder>::size(); }
+    const FileTreeItem *FileTreeRoot::at(int index) const {
+      if (index >= size())
+        return nullptr;
+      return &(QList<FileTreeFolder>::at(index));
+    }
+  }
+}

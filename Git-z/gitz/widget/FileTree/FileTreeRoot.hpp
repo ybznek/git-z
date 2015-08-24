@@ -9,6 +9,7 @@ namespace gitz {
     public:
       FileTreeItem *parent() override;
       int count() const override;
+      const FileTreeItem *at(int index) const override;
     };
   }
 }

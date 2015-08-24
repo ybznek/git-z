@@ -11,12 +11,13 @@ namespace gitz {
 
     public:
       using FileList = QList<FileTreeFile>;
-      FileTreeFolder(FileTreeItem *parent);
+      FileTreeFolder(FileTreeItem *parent, const QString &path);
 
       bool addFile(const GitFile &file);
 
       bool operator==(const FileTreeFolder &f);
       FileTreeItem *parent() override;
+      const FileTreeItem *at(int index) const;
       int count() const override;
       FileTreeItem *parentItem;
       QString path;

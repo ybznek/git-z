@@ -1,27 +1,36 @@
 #include "FileTreeFolder.hpp"
 
+namespace gitz {
+  namespace widget {
+    FileTreeFolder::FileTreeFolder(FileTreeItem *parent, const QString &path)
+        : parentItem{parent}, path{path} {}
 
-gitz::widget::FileTreeFolder::FileTreeFolder(gitz::widget::FileTreeItem *parent) : parentItem{parent} {}
-
-bool gitz::widget::FileTreeFolder::addFile(const gitz::GitFile &file) {
-  for (FileTreeFile &f : files) {
-    if (f.gitTreeFile == file) {
-      if (f.gitTreeFile.getState() != file.getState()) {
-        f.gitTreeFile.setState(file.getState());
-        return true;
+    bool FileTreeFolder::addFile(const gitz::GitFile &file) {
+      for (FileTreeFile &f : files) {
+        if (f.gitTreeFile == file) {
+          if (f.gitTreeFile.getState() != file.getState()) {
+            f.gitTreeFile.setState(file.getState());
+            return true;
+          }
+          return false;
+        }
       }
-      return false;
+
+      files.append(FileTreeFile{this, file});
+      return true;
     }
+
+    bool FileTreeFolder::operator==(const FileTreeFolder &f) { return this->path == f.path; }
+
+    FileTreeItem *FileTreeFolder::parent() { return parentItem; }
+
+    const FileTreeItem *FileTreeFolder::at(int index) const {
+      if (index >= files.size()) {
+        return nullptr;
+      }
+      return &(files.at(index));
+    }
+
+    int FileTreeFolder::count() const { return files.size(); }
   }
-
-  files.append(FileTreeFile{file, this});
-  return true;
 }
-
-bool gitz::widget::FileTreeFolder::operator==(const gitz::widget::FileTreeFolder &f) {
-  return this->path == f.path;
-}
-
-gitz::widget::FileTreeItem *gitz::widget::FileTreeFolder::parent() { return parentItem; }
-
-int gitz::widget::FileTreeFolder::count() const { return files.size(); }

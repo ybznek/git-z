@@ -30,13 +30,6 @@ namespace gitz {
 
       QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-      Qt::ItemFlags flags(const QModelIndex &index) const override {
-        if (!index.isValid())
-          return 0;
-
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable
-                | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
-      }
 
     public slots:
       void fileListUpdated();

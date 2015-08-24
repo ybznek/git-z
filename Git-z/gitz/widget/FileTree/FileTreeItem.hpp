@@ -11,6 +11,7 @@ namespace gitz {
     struct FileTreeItem {
       virtual FileTreeItem *parent() = 0;
       virtual int count() const = 0;
+      virtual const FileTreeItem *at(int index) const = 0;
     };
   }
 }

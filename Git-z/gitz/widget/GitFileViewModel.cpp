@@ -10,72 +10,72 @@ QModelIndex widget::GitFileViewModel::index(int row, int column, const QModelInd
   qDebug() << "index";
   if (!hasIndex(row, column, parent))
     return QModelIndex();
-  void *parentPtr = parent.internalPointer();
-  if (!parent.isValid()) {
-    if (row >= root.size()) {
-      return QModelIndex{};
-    }
-    const FileTreeFolder *item = &(root.at(row));
-    return createIndex(row, column, const_cast<FileTreeFolder *>(item));
-  }
 
-  FileTreeItem *item = static_cast<FileTreeItem *>(parentPtr);
-  FileTreeFolder *folder;
-  if ((folder = dynamic_cast<FileTreeFolder *>(item))) {
-    const FileTreeFolder::FileList &files = folder->files;
-    if (row >= files.size()) {
-      return QModelIndex{};
-    }
-    return createIndex(row, column, const_cast<FileTreeFile *>(&files.at(row)));
-  }
-  return QModelIndex{};
+  const FileTreeItem *parentItem;
+
+  if (!parent.isValid())
+    parentItem = &root;
+  else
+    parentItem = static_cast<FileTreeItem *>(parent.internalPointer());
+
+  const FileTreeItem *childItem = parentItem->at(row);
+  if (childItem != nullptr)
+    return createIndex(row, column, const_cast<FileTreeItem *>(childItem));
+  else
+    return QModelIndex();
 }
 
-QModelIndex widget::GitFileViewModel::parent(const QModelIndex &child) const {
+QModelIndex widget::GitFileViewModel::parent(const QModelIndex &index) const {
   qDebug() << "parent";
-  if (!child.isValid()) {
-    return QModelIndex{};
-  }
+  //  if (!index.isValid())
+  //    return QModelIndex();
+  qDebug() << "valid";
+  FileTreeItem *childItem = static_cast<FileTreeItem *>(index.internalPointer());
+  FileTreeItem *parentItem = childItem->parent();
 
-  FileTreeItem *childPtr = static_cast<FileTreeItem *>(child.internalPointer());
-
-
-  const FileTreeItem *parentItem = childPtr->parent();
-
-  if (parentItem == &root) {
+  if (parentItem == &root)
     return QModelIndex();
-  }
-
-  int row = root.indexOf(*(static_cast<const FileTreeFolder *>(parentItem)));
-  return createIndex(row, 0, const_cast<FileTreeItem *>(static_cast<const FileTreeItem *>(parentItem)));
+  qDebug() << "non root";
+  return createIndex(0, 0, parentItem);
 }
 
 
 int widget::GitFileViewModel::rowCount(const QModelIndex &parent) const {
   qDebug() << "rowCount";
+  return 2;
+  qDebug() << "rowCount";
   if (!parent.isValid()) {
-      qDebug() << root.count();
+    qDebug() << root.count();
 
     return root.count();
   }
   qDebug() << "valid";
   FileTreeItem *item = static_cast<FileTreeItem *>(parent.internalPointer());
-      qDebug() << item->count();
+  qDebug() << item->count();
   return item->count();
 }
 
 int widget::GitFileViewModel::columnCount(const QModelIndex &parent) const {
-  qDebug() << "columnCount";
-  return 1;
+  qDebug() << "col";
+  return 2;
+  return rowCount(parent);
 }
 
 
 QVariant widget::GitFileViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
-  qDebug() << "header";
-  return "header";
+  if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+    return "a";
+
+  return QVariant();
 }
 
+
 QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) const {
+  qDebug() << "data";
+  if (!index.isValid())
+    return QVariant();
+  if (role != Qt::DisplayRole)
+    return QVariant();
   qDebug() << "data";
   return "data";
 }
@@ -83,9 +83,9 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
 
 void widget::GitFileViewModel::fileListUpdated() {
   qDebug() << "file list";
+  LockHolder<const GitFileList> fileList = git.getFileList();
   invalidate();
   changed = true;
-  LockHolder<const GitFileList> fileList = git.getFileList();
   for (const GitFile &file : fileList) {
     QString path = file.getPath();
     FileTreeFolder &folder = geFileTreeFolder(path);
@@ -111,13 +111,13 @@ void widget::GitFileViewModel::fileListUpdated() {
   }
   qDebug() << root.count();
   for (FileTreeFolder &folder : root) {
-    qDebug() << "path" << folder.path;
+    qDebug() << "path" << folder.path << folder.count();
     for (FileTreeFile &file : folder.files) {
-      qDebug() << "." << file.gitTreeFile.getFilename();
+      qDebug() << "." << file.gitTreeFile.getFilename() << file.count();
     }
   }
   //        if (changed){
-  emit dataChanged(index(0, 0), index(0, root.count()));
+  emit dataChanged(index(0, 0), index(0, root.count() - 1));
   //      }
 }
 
@@ -127,7 +127,7 @@ widget::FileTreeFolder &widget::GitFileViewModel::geFileTreeFolder(const QString
       return folder;
     }
   }
-  root.push_back(FileTreeFolder{&root});
+  root.push_back(FileTreeFolder{&root, path});
   return root.back();
 }
 
