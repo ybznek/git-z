@@ -1,4 +1,9 @@
 <RCC>
     <qresource prefix="/icons"/>
-    <qresource prefix="/icons/files"/>
+    <qresource prefix="/icons/files">
+        <file>created.svg</file>
+        <file>removed.svg</file>
+        <file>modified.svg</file>
+        <file>folder.svg</file>
+    </qresource>
 </RCC>

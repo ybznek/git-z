@@ -9,6 +9,8 @@
 #include "FileTree/FileTreeFolder.hpp"
 #include "FileTree/FileTreeRoot.hpp"
 #include "FileTree/FileTreeFile.hpp"
+#include "FileIconFactory.hpp"
+#include <QPixmap>
 using namespace gitz;
 namespace gitz {
 
@@ -36,6 +38,7 @@ namespace gitz {
 
 
     protected:
+      FileIconFactory iconFactory{32, 32};
       FileTreeFolder &geFileTreeFolder(const QString &path);
 
       void invalidate();

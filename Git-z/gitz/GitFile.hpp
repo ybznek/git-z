@@ -5,7 +5,7 @@
 namespace gitz {
   class GitFile {
   public:
-    enum state { UNKNOWN, MODIFIED, CREATED, REMOVED };
+    enum state { UNKNOWN, MODIFIED, CREATED, REMOVED, _count_ };
     GitFile();
     GitFile(QString filePath, state s);
 

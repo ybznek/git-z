@@ -43,7 +43,8 @@ SOURCES += \
     gitz/TaskThread.cpp \
     LogView.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    gitz/widget/FileIconFactory.cpp
 
 
 
@@ -83,7 +84,8 @@ HEADERS  += \
     gitz/widget/FileTree/FileTreeFolder.hpp \
     gitz/widget/FileTree/FileTreeRoot.hpp \
     gitz/widget/GitFileViewModel.hpp \
-    gitz/widget/GraphViewWidget.hpp
+    gitz/widget/GraphViewWidget.hpp \
+    gitz/widget/FileIconFactory.hpp
 
 
 FORMS    += mainwindow.ui \

@@ -11,5 +11,15 @@ namespace gitz {
         return nullptr;
       return &(QList<FileTreeFolder>::at(index));
     }
+
+    FileTreeFolder &FileTreeRoot::getFolder(const QString &path) {
+      for (FileTreeFolder &folder : *this) {
+        if (folder.path == path) {
+          return folder;
+        }
+      }
+      push_back(FileTreeFolder{this, path});
+      return back();
+    }
   }
 }

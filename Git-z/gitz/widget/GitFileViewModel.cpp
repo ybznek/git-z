@@ -1,6 +1,5 @@
 #include "GitFileViewModel.hpp"
 #include <QModelIndex>
-
 widget::GitFileViewModel::GitFileViewModel(Git &git) : git{git} {
   QObject::connect(&git, SIGNAL(onStatusUpdated()), this, SLOT(fileListUpdated()));
 }
@@ -73,27 +72,51 @@ QVariant widget::GitFileViewModel::headerData(int section, Qt::Orientation orien
 QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) const {
   if (!index.isValid())
     return QVariant();
-  if (role != Qt::DisplayRole)
-    return QVariant();
+
 
   FileTreeItem *ptr = static_cast<FileTreeItem *>(index.internalPointer());
 
   for (FileTreeFile *file = ptr->cast<FileTreeFile>(); file != nullptr;) {
+
     if (index.column() == 0) {
-      return file->getFilename();
+      switch (role) {
+      case Qt::DecorationRole:
+        return iconFactory.getIcon(file->getStatus());
+      case Qt::DisplayRole:
+        return file->getFilename();
+      default:
+        return QVariant();
+      }
+
+
     } else {
-      return file->getStatus();
+      if (role != Qt::DisplayRole)
+        return QVariant();
+      return file->getStringStatus();
     }
   }
 
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
   for (FileTreeFolder *folder = ptr->cast<FileTreeFolder>(); folder != nullptr;) {
-    return (index.column() == 0) ? folder->getPath() : QVariant();
+    if (index.column() == 0) {
+      switch (role) {
+      case Qt::DecorationRole:
+        qDebug() << "decoration";
+        return iconFactory.getFolderIcon();
+      case Qt::DisplayRole:
+        return folder->getPath();
+      }
+    } else {
+      return QVariant();
+    }
   }
 
   for (FileTreeRoot *root = ptr->cast<FileTreeRoot>(); root != nullptr;) {
     return "root";
   }
-  return "data";
+  Q_UNREACHABLE();
 }
 
 
@@ -104,26 +127,10 @@ void widget::GitFileViewModel::fileListUpdated() {
   changed = true;
   for (const GitFile &file : fileList) {
     QString path = file.getPath();
-    FileTreeFolder &folder = geFileTreeFolder(path);
+    FileTreeFolder &folder = root.getFolder(path);
     if (folder.addFile(file)) {
       changed = true;
     }
-
-    /*          QString state;
-                switch (file.getState()) {
-                case GiFileTreeItem::CREATED:
-                  state = "CREATED";
-                  break;
-                case GiFileTreeItem::MODIFIED:
-                  state = "MODIFIED";
-                  break;
-                case GiFileTreeItem::REMOVED:
-                  state = "REMOVED";
-                  break;
-                case GiFileTreeItem::UNKNOWN:
-                  state = "NOBODY KNOWS";
-                  break;
-                }*/
   }
   qDebug() << root.count();
   for (FileTreeFolder &folder : root) {
@@ -137,15 +144,6 @@ void widget::GitFileViewModel::fileListUpdated() {
   //      }
 }
 
-widget::FileTreeFolder &widget::GitFileViewModel::geFileTreeFolder(const QString &path) {
-  for (FileTreeFolder &folder : root) {
-    if (folder.path == path) {
-      return folder;
-    }
-  }
-  root.push_back(FileTreeFolder{&root, path});
-  return root.back();
-}
 
 void widget::GitFileViewModel::invalidate() {
   for (FileTreeFolder &folder : root) {
