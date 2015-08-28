@@ -9,9 +9,12 @@ namespace gitz {
     using namespace ::gitz;
 
     struct FileTreeItem {
-      virtual FileTreeItem *parent() = 0;
+      virtual FileTreeItem *parent() const = 0;
       virtual int count() const = 0;
       virtual const FileTreeItem *at(int index) const = 0;
+      virtual int row() const;
+      template <class C> inline C *cast() { return dynamic_cast<C *>(this); }
+      template <class C> inline bool is() { return (cast<C>() != nullptr); }
     };
   }
 }

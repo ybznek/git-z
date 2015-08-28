@@ -2,7 +2,7 @@
 #include <QDebug>
 namespace gitz {
   namespace widget {
-    FileTreeItem *FileTreeRoot::parent() { return nullptr; }
+    FileTreeItem *FileTreeRoot::parent() const { return nullptr; }
 
     int FileTreeRoot::count() const { return QList<FileTreeFolder>::size(); }
 

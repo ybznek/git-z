@@ -3,12 +3,14 @@ namespace gitz {
   namespace widget {
 
     FileTreeFile::FileTreeFile(FileTreeItem *parent, const gitz::GitFile &file)
-        : selected{false}, valid{true}, gitTreeFile{file}, parentItem{parent} {}
+        : selected{false}, valid{true}, gitFile{file}, parentItem{parent} {}
 
-    FileTreeItem *FileTreeFile::parent() { return parentItem; }
+    FileTreeItem *FileTreeFile::parent() const { return parentItem; }
 
     const FileTreeItem *FileTreeFile::at(int index) const { return nullptr; }
 
-    int FileTreeFile::count() const { return 1; }
+    const QString &FileTreeFile::getFilename() const { return gitFile.getFilename(); }
+
+    int FileTreeFile::count() const { return 0; }
   }
 }

@@ -7,18 +7,17 @@ widget::GitFileViewModel::GitFileViewModel(Git &git) : git{git} {
 
 
 QModelIndex widget::GitFileViewModel::index(int row, int column, const QModelIndex &parent) const {
-  qDebug() << "index";
+
+  qDebug() << "index" << row << column;
   if (!hasIndex(row, column, parent))
     return QModelIndex();
 
-  const FileTreeItem *parentItem;
 
-  if (!parent.isValid())
-    parentItem = &root;
-  else
-    parentItem = static_cast<FileTreeItem *>(parent.internalPointer());
+  bool isValid = parent.isValid();
+  const FileTreeItem *parentItem = !isValid ? &root : static_cast<FileTreeItem *>(parent.internalPointer());
 
   const FileTreeItem *childItem = parentItem->at(row);
+
   if (childItem != nullptr)
     return createIndex(row, column, const_cast<FileTreeItem *>(childItem));
   else
@@ -26,39 +25,40 @@ QModelIndex widget::GitFileViewModel::index(int row, int column, const QModelInd
 }
 
 QModelIndex widget::GitFileViewModel::parent(const QModelIndex &index) const {
-  qDebug() << "parent";
-  //  if (!index.isValid())
-  //    return QModelIndex();
-  qDebug() << "valid";
+  if (!index.isValid())
+    return QModelIndex();
   FileTreeItem *childItem = static_cast<FileTreeItem *>(index.internalPointer());
+
+  if (childItem == nullptr)
+    return QModelIndex();
   FileTreeItem *parentItem = childItem->parent();
 
-  if (parentItem == &root)
+  if (parentItem == nullptr)
     return QModelIndex();
-  qDebug() << "non root";
-  return createIndex(0, 0, parentItem);
+
+  return createIndex(parentItem->row(), 0, parentItem);
 }
 
 
 int widget::GitFileViewModel::rowCount(const QModelIndex &parent) const {
-  qDebug() << "rowCount";
-  return 2;
-  qDebug() << "rowCount";
   if (!parent.isValid()) {
-    qDebug() << root.count();
-
     return root.count();
   }
-  qDebug() << "valid";
   FileTreeItem *item = static_cast<FileTreeItem *>(parent.internalPointer());
-  qDebug() << item->count();
   return item->count();
 }
 
 int widget::GitFileViewModel::columnCount(const QModelIndex &parent) const {
-  qDebug() << "col";
-  return 2;
-  return rowCount(parent);
+  if (!parent.isValid()) {
+    return 2;
+  }
+
+  FileTreeItem *item = static_cast<FileTreeItem *>(parent.internalPointer());
+
+  if (item->is<FileTreeItem>()) {
+    return 2;
+  }
+  return 1;
 }
 
 
@@ -71,12 +71,28 @@ QVariant widget::GitFileViewModel::headerData(int section, Qt::Orientation orien
 
 
 QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) const {
-  qDebug() << "data";
   if (!index.isValid())
     return QVariant();
   if (role != Qt::DisplayRole)
     return QVariant();
-  qDebug() << "data";
+
+  FileTreeItem *ptr = static_cast<FileTreeItem *>(index.internalPointer());
+
+  for (FileTreeFile *file = ptr->cast<FileTreeFile>(); file != nullptr;) {
+    if (index.column() == 0) {
+      return file->getFilename();
+    } else {
+      return file->getStatus();
+    }
+  }
+
+  for (FileTreeFolder *folder = ptr->cast<FileTreeFolder>(); folder != nullptr;) {
+    return (index.column() == 0) ? folder->getPath() : QVariant();
+  }
+
+  for (FileTreeRoot *root = ptr->cast<FileTreeRoot>(); root != nullptr;) {
+    return "root";
+  }
   return "data";
 }
 
@@ -113,7 +129,7 @@ void widget::GitFileViewModel::fileListUpdated() {
   for (FileTreeFolder &folder : root) {
     qDebug() << "path" << folder.path << folder.count();
     for (FileTreeFile &file : folder.files) {
-      qDebug() << "." << file.gitTreeFile.getFilename() << file.count();
+      qDebug() << "." << file.gitFile.getFilename() << file.count();
     }
   }
   //        if (changed){

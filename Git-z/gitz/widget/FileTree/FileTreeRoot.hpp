@@ -7,7 +7,7 @@ namespace gitz {
   namespace widget {
     class FileTreeRoot : public FileTreeItem, public QList<FileTreeFolder> {
     public:
-      FileTreeItem *parent() override;
+      FileTreeItem *parent() const override;
       int count() const override;
       const FileTreeItem *at(int index) const override;
     };

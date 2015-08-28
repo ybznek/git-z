@@ -7,9 +7,9 @@ namespace gitz {
 
     bool FileTreeFolder::addFile(const gitz::GitFile &file) {
       for (FileTreeFile &f : files) {
-        if (f.gitTreeFile == file) {
-          if (f.gitTreeFile.getState() != file.getState()) {
-            f.gitTreeFile.setState(file.getState());
+        if (f.gitFile == file) {
+          if (f.gitFile.getState() != file.getState()) {
+            f.gitFile.setState(file.getState());
             return true;
           }
           return false;
@@ -22,7 +22,7 @@ namespace gitz {
 
     bool FileTreeFolder::operator==(const FileTreeFolder &f) { return this->path == f.path; }
 
-    FileTreeItem *FileTreeFolder::parent() { return parentItem; }
+    FileTreeItem *FileTreeFolder::parent() const { return parentItem; }
 
     const FileTreeItem *FileTreeFolder::at(int index) const {
       if (index >= files.size()) {
@@ -32,5 +32,7 @@ namespace gitz {
     }
 
     int FileTreeFolder::count() const { return files.size(); }
+
+    const QString &FileTreeFolder::getPath() const { return path; }
   }
 }
