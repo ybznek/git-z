@@ -98,9 +98,27 @@ void Git::getLog() {
   a << "log";
   a << ("--pretty=format:" + log.obj.getFormat());
   addTask(a, [this]() {
-    log.obj << readStandardOutput();
+    {
+      auto editableLog = getEditableLogView();
+      (*editableLog) << readStandardOutput();
+    }
     qDebug() << "stahl jsem graf";
     emit onLogUpdated();
+  });
+}
+
+
+void Git::getGraphLog() {
+  A a;
+  a << "log";
+  a << ("--pretty=format:" + graphLog.obj.getGraphFormat());
+  addTask(a, [this]() {
+    {
+      auto editableGraphLog = getEditableGraphLogView();
+      (*editableGraphLog) << readStandardOutput();
+    }
+    qDebug() << "stahl jsem graf";
+    emit onGraphLogUpdated();
   });
 }
 

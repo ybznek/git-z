@@ -18,7 +18,7 @@ int gitz::widget::GraphViewModel::columnCount(const QModelIndex &parent) const {
 QVariant gitz::widget::GraphViewModel::data(const QModelIndex &index, int role) const { return "ahoj"; }
 
 void gitz::widget::GraphViewModel::notifyDataChanged() {
-  auto const log = git->getLogView();
+  auto const log = git->getGraphLogView();
   int length = log->length();
   list.setSize(length);
 

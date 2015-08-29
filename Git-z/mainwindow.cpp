@@ -6,12 +6,14 @@
 #include <QObject>
 #include <QTreeWidgetItem>
 MainWindow::MainWindow(const QString &executable, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), git{executable}, logView{git}, fileViewModel{git} {
+    : QMainWindow(parent), ui(new Ui::MainWindow), git{executable}, logView{git}, fileViewModel{git},
+      logViewModel{git} {
   ui->setupUi(this);
   fileViewModel.assignTreeView(ui->fileView);
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
+  // git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepositorya");
 
-
+  ui->logTableView->setModel(&logViewModel);
   logView.setModal(true);
 
 
@@ -21,6 +23,8 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   QObject::connect(&git, SIGNAL(onError(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onCommand(QString)), ui->logView, SLOT(appendPlainText(QString)));
   QObject::connect(&git, SIGNAL(onBranchesUpdated()), this, SLOT(onBranchesUpdated()));
+
+  QObject::connect(&git, SIGNAL(onLogUpdated()), &logViewModel, SLOT(logUpdated()));
 
   QObject::connect(ui->newBranchEdit, SIGNAL(returnPressed()), this, SLOT(newBranch()));
 
@@ -33,7 +37,6 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
   QObject::connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(onRebase()));
 
-  QObject::connect(ui->logViewButton, SIGNAL(clicked(bool)), this, SLOT(showLogView()));
 
   // logview
   //  emit ui->logViewButton->click();
@@ -57,6 +60,7 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now) {
   if (old == nullptr) {
     emit git.getIndex();
     emit git.getBranches();
+    emit git.getLog();
   }
 }
 
@@ -66,6 +70,7 @@ void MainWindow::showLogView() {
   logView.setVisible(true);
   emit git.getLog();
 }
+
 
 void MainWindow::onCommit() {
   qDebug() << "commit";

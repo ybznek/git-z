@@ -28,6 +28,7 @@ namespace gitz {
     int length() const;
     const GitLogItem &operator[](int index) const;
     const QString &getFormat();
+    const QString &getGraphFormat();
 
 
   protected:

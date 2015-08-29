@@ -8,6 +8,7 @@
 #include "gitz/RebaseList.hpp"
 #include "LogView.hpp"
 #include "gitz/widget/GitFileViewModel.hpp"
+#include "gitz/widget/GitLogModel.hpp"
 using namespace gitz;
 using namespace gitz::widget;
 namespace Ui {
@@ -42,6 +43,7 @@ private:
   QStringListModel strlistModel;
   QStringListModel strlistModel2;
   GitFileList fileList;
+  GitLogModel logViewModel;
   GitFileViewModel fileViewModel;
 };
 

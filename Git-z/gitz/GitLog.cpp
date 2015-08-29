@@ -7,6 +7,7 @@ gitz::GitLog::GitLog() {
   format += separator + GF::authorName();
   format += separator + GF::subject();
   format += separator;
+  // todo better solution
 }
 
 void gitz::GitLog::operator<<(const QString &str) {
@@ -30,6 +31,7 @@ int gitz::GitLog::length() const { return items.size(); }
 const gitz::GitLogItem &gitz::GitLog::operator[](int index) const { return items[index]; }
 
 const QString &gitz::GitLog::getFormat() { return format; }
+const QString &gitz::GitLog::getGraphFormat() { return format; }
 
 void gitz::GitLog::parseLine(const QString &str, int &lastPos, gitz::GitLogItem &item) {
   for (int i = 0; i < GitLogItem::_max_items_; ++i) {

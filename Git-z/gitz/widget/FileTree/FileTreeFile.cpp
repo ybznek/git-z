@@ -27,7 +27,7 @@ namespace gitz {
         static const QString removed{"removed"};
         return removed;
       default:
-        Q_UNREACHABLE();
+        // Q_UNREACHABLE();
         static const QString unknown{"unknown"};
         return unknown;
       }

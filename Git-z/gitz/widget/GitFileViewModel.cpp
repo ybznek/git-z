@@ -170,6 +170,7 @@ void widget::GitFileViewModel::deleteOld() {
 
 
 void widget::GitFileViewModel::fileListUpdated() {
+
   LockHolder<const GitFileList> fileList = git.getFileList();
   invalidate();
   changed = false;
@@ -183,6 +184,7 @@ void widget::GitFileViewModel::fileListUpdated() {
   deleteOld();
 
   if (changed) {
+
     root.updateRows();
     emit dataChanged(index(0, 0), index(0, root.count() - 1));
 
