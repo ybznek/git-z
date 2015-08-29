@@ -49,7 +49,7 @@ namespace gitz {
       FileTreeRoot root;
       QMutex mtx;
       Git &git;
-      QTreeView *treeView;
+      QTreeView *treeView = nullptr;
     };
   }
 }

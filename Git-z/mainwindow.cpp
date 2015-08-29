@@ -13,7 +13,7 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
   // git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepositorya");
 
-  ui->logTableView->setModel(&logViewModel);
+  logViewModel.assignTable(ui->logTableView);
   logView.setModal(true);
 
 

@@ -5,6 +5,7 @@
 #include "../Git.hpp"
 #include "../GitLogItemList.hpp"
 #include "../LockHolder.hpp"
+#include <QTableView>
 namespace gitz {
 
   namespace widget {
@@ -15,8 +16,12 @@ namespace gitz {
       using LockedLog = LockHolder<const GitLog>;
 
     public:
+      enum { DATE_COLUMN, AUTHOR_COLUMN, COMMIT_COLUMN, SUBJECT_COLUMN, _max_column_ };
       GitLogModel(Git &git, QObject *parent = nullptr) : QAbstractTableModel{parent}, git{git} {}
-
+      void assignTable(QTableView *table) {
+        this->table = table;
+        table->setModel(this);
+      }
       int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
       int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -31,6 +36,7 @@ namespace gitz {
     protected:
       int size = 0;
       Git &git;
+      QTableView *table = nullptr;
     };
   }
 }

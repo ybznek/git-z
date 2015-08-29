@@ -118,14 +118,19 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
       case Qt::DecorationRole:
         return iconFactory.getFolderIcon();
 
-      case Qt::FontRole:
+      case Qt::FontRole: {
         QFont boldFont;
         boldFont.setBold(true);
         //          boldFont.setWeight(QFont::Weight::Black);
         return boldFont;
       }
+      }
     }
 
+    if (role == Qt::BackgroundRole) {
+      QColor backgroundColor{232, 232, 232};
+      return backgroundColor;
+    }
 
     return QVariant();
   }

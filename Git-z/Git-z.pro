@@ -90,8 +90,7 @@ HEADERS  += \
     gitz/widget/GitLogModel.hpp
 
 
-FORMS    += mainwindow.ui \
-    LogView.ui
+FORMS    += mainwindow.ui
 
 RESOURCES += \
     Icons.qrc

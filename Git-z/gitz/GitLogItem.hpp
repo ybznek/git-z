@@ -14,13 +14,13 @@ namespace gitz {
     friend class GitLog;
 
   protected:
-    enum { commit, author, subject, _max_items_ };
+    enum { commit, date, author, subject, _max_items_ };
 
   public:
     GitLogItem() {}
 
     GETTER(CommitHash, commit)
-    //    GETTER(Date, date)
+    GETTER(Date, date)
     GETTER(Author, author)
     GETTER(Subject, subject)
 

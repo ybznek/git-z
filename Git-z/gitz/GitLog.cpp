@@ -4,6 +4,7 @@
 gitz::GitLog::GitLog() {
 
   format += separator + GF::commitHash();
+  format += separator + GF::authorDateISO8601likeFormat();
   format += separator + GF::authorName();
   format += separator + GF::subject();
   format += separator;
