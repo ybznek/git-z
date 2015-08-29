@@ -34,5 +34,7 @@ namespace gitz {
     }
 
     void FileTreeFile::remove(int index) { ; }
+
+    void FileTreeFile::setValid(bool valid) { this->valid = valid; }
   }
 }

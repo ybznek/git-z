@@ -8,6 +8,7 @@ namespace gitz {
     bool FileTreeFolder::addFile(const gitz::GitFile &file) {
       for (FileTreeFile &f : files) {
         if (f.gitFile == file) {
+          f.setValid(true);
           if (f.gitFile.getState() != file.getState()) {
             f.gitFile.setState(file.getState());
             f.setValid(true);

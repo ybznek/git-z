@@ -20,7 +20,7 @@ namespace gitz {
       GitFile::state getStatus() const { return gitFile.getState(); }
       const QString &getStringStatus() const;
       void remove(int index) override;
-      void setValid(bool valid) { this->valid = true; }
+      void setValid(bool valid);
       bool isValid() const { return valid; }
       bool selected;
 

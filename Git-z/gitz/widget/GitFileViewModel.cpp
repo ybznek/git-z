@@ -8,7 +8,6 @@ widget::GitFileViewModel::GitFileViewModel(Git &git) : git{git} {
 
 QModelIndex widget::GitFileViewModel::index(int row, int column, const QModelIndex &parent) const {
 
-  qDebug() << "index" << row << column;
   if (!hasIndex(row, column, parent))
     return QModelIndex();
 
@@ -117,14 +116,12 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
         return folder->getPath();
 
       case Qt::DecorationRole:
-        qDebug() << "decoration";
         return iconFactory.getFolderIcon();
 
       case Qt::FontRole:
         QFont boldFont;
         boldFont.setBold(true);
         //          boldFont.setWeight(QFont::Weight::Black);
-        qDebug() << "font";
         return boldFont;
       }
     }
@@ -144,29 +141,35 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
 
 void widget::GitFileViewModel::deleteOld() {
   int folderCount = root.count();
-  for (int i = 0; i < folderCount; ++i) {
+  for (int folderIndex = 0; folderIndex < folderCount;) {
 
-    FileTreeFolder *folder = static_cast<FileTreeFolder *>(root.at(i));
+    FileTreeFolder *folder = static_cast<FileTreeFolder *>(root.at(folderIndex));
     int filesCount = folder->count();
-    for (int j = 0; j < filesCount; ++j) {
-      FileTreeFile *file = static_cast<FileTreeFile *>(folder->at(j));
-      qDebug() << file->gitFile.getFilepath();
+
+    for (int fileIndex = 0; fileIndex < filesCount;) {
+      FileTreeFile *file = static_cast<FileTreeFile *>(folder->at(fileIndex));
       if (!file->isValid()) {
-        folder->remove(i);
+        qDebug() << "                                      remove " << file->getFilename();
+        folder->remove(fileIndex);
         --filesCount;
         changed = true;
+      } else {
+        ++fileIndex;
       }
     }
-    if (folder->count() == 0) {
-      root.remove(i);
+
+    Q_ASSERT(folder->count() == filesCount);
+    if (filesCount == 0) {
+      root.remove(folderIndex);
       --folderCount;
+    } else {
+      ++folderIndex;
     }
   }
 }
 
 
 void widget::GitFileViewModel::fileListUpdated() {
-  qDebug() << "file list";
   LockHolder<const GitFileList> fileList = git.getFileList();
   invalidate();
   changed = false;
