@@ -16,25 +16,23 @@ namespace gitz {
     int FileTreeFile::count() const { return 0; }
 
     const QString &FileTreeFile::getStringStatus() const {
-        switch (gitFile.getState()) {
-        case state::CREATED:
-            static const QString created{"created"};
-            return created;
-        case state::MODIFIED:
-            static const QString modified{"modified"};
-            return modified;
-        case state::REMOVED:
-            static const QString removed{"removed"};
-            return removed;
-        default:
-            Q_UNREACHABLE();
-            static const QString unknown{"unknown"};
-            return unknown;
-        }
+      switch (gitFile.getState()) {
+      case state::CREATED:
+        static const QString created{"created"};
+        return created;
+      case state::MODIFIED:
+        static const QString modified{"modified"};
+        return modified;
+      case state::REMOVED:
+        static const QString removed{"removed"};
+        return removed;
+      default:
+        Q_UNREACHABLE();
+        static const QString unknown{"unknown"};
+        return unknown;
+      }
     }
 
-    void FileTreeFile::remove(int index) {
-        ;
-    }
+    void FileTreeFile::remove(int index) { ; }
   }
 }

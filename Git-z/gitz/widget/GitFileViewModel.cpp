@@ -146,20 +146,20 @@ void widget::GitFileViewModel::deleteOld() {
   int folderCount = root.count();
   for (int i = 0; i < folderCount; ++i) {
 
-    FileTreeFolder *folder = static_cast<FileTreeFolder*>(root.at(i));
+    FileTreeFolder *folder = static_cast<FileTreeFolder *>(root.at(i));
     int filesCount = folder->count();
     for (int j = 0; j < filesCount; ++j) {
-        FileTreeFile* file = static_cast<FileTreeFile*>(folder->at(j));
-        qDebug() << file->gitFile.getFilepath();
-        if (!file->isValid()) {
-            folder->remove(i);
-            --filesCount;
-            changed = true;
-       }
+      FileTreeFile *file = static_cast<FileTreeFile *>(folder->at(j));
+      qDebug() << file->gitFile.getFilepath();
+      if (!file->isValid()) {
+        folder->remove(i);
+        --filesCount;
+        changed = true;
+      }
     }
     if (folder->count() == 0) {
-        root.remove(i);
-        --folderCount;
+      root.remove(i);
+      --folderCount;
     }
   }
 }
@@ -177,7 +177,7 @@ void widget::GitFileViewModel::fileListUpdated() {
       changed = true;
     }
   }
-   deleteOld();
+  deleteOld();
 
   if (changed) {
     root.updateRows();

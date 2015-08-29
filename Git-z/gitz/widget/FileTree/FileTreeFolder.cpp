@@ -21,9 +21,7 @@ namespace gitz {
       return true;
     }
 
-    void FileTreeFolder::remove(int index) {
-        files.removeAt(index);
-    }
+    void FileTreeFolder::remove(int index) { files.removeAt(index); }
 
     bool FileTreeFolder::operator==(const FileTreeFolder &f) { return this->path == f.path; }
 

@@ -20,16 +20,16 @@ namespace gitz {
       GitFile::state getStatus() const { return gitFile.getState(); }
       const QString &getStringStatus() const;
       void remove(int index) override;
-      void setValid(bool valid){this->valid=true;}
-      bool isValid() const {return valid;}
+      void setValid(bool valid) { this->valid = true; }
+      bool isValid() const { return valid; }
       bool selected;
 
       GitFile gitFile;
       FileTreeItem *parentItem;
-    protected:
-            bool valid = true;
-    };
 
+    protected:
+      bool valid = true;
+    };
   }
 }
 

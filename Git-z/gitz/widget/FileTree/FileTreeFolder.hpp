@@ -14,7 +14,7 @@ namespace gitz {
       FileTreeFolder(FileTreeItem *parent, const QString &path);
 
       bool addFile(const GitFile &file);
-        void remove(int index) override;
+      void remove(int index) override;
       bool operator==(const FileTreeFolder &f);
       FileTreeItem *parent() const override;
       const FileTreeItem *at(int index) const;

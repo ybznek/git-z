@@ -18,12 +18,10 @@ namespace gitz {
       return &(QList<FileTreeFolder>::operator[](index));
     }
 
-    void FileTreeRoot::remove(int index) {
-        removeAt(index);
-    }
+    void FileTreeRoot::remove(int index) { removeAt(index); }
 
     FileTreeFolder &FileTreeRoot::getFolder(const QString &path) {
-        for (FileTreeFolder &folder : *this) {
+      for (FileTreeFolder &folder : *this) {
         if (folder.path == path) {
           return folder;
         }
