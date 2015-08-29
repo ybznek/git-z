@@ -14,31 +14,22 @@ namespace gitz {
       FileTreeFile(FileTreeItem *parent, const GitFile &file);
       FileTreeItem *parent() const override;
       const FileTreeItem *at(int index) const;
+      FileTreeItem *at(int index);
       const QString &getFilename() const;
       int count() const override;
       GitFile::state getStatus() const { return gitFile.getState(); }
-      const QString &getStringStatus() const {
-        switch (gitFile.getState()) {
-        case state::CREATED:
-          static const QString created{"created"};
-          return created;
-        case state::MODIFIED:
-          static const QString modified{"modified"};
-          return modified;
-        case state::REMOVED:
-          static const QString removed{"removed"};
-          return removed;
-        default:
-          Q_UNREACHABLE();
-          static const QString unknown{"unknown"};
-          return unknown;
-        }
-      }
+      const QString &getStringStatus() const;
+      void remove(int index) override;
+      void setValid(bool valid){this->valid=true;}
+      bool isValid() const {return valid;}
       bool selected;
-      bool valid;
+
       GitFile gitFile;
       FileTreeItem *parentItem;
+    protected:
+            bool valid = true;
     };
+
   }
 }
 

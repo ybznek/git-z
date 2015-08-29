@@ -9,8 +9,32 @@ namespace gitz {
 
     const FileTreeItem *FileTreeFile::at(int index) const { return nullptr; }
 
+    FileTreeItem *FileTreeFile::at(int index) { return nullptr; }
+
     const QString &FileTreeFile::getFilename() const { return gitFile.getFilename(); }
 
     int FileTreeFile::count() const { return 0; }
+
+    const QString &FileTreeFile::getStringStatus() const {
+        switch (gitFile.getState()) {
+        case state::CREATED:
+            static const QString created{"created"};
+            return created;
+        case state::MODIFIED:
+            static const QString modified{"modified"};
+            return modified;
+        case state::REMOVED:
+            static const QString removed{"removed"};
+            return removed;
+        default:
+            Q_UNREACHABLE();
+            static const QString unknown{"unknown"};
+            return unknown;
+        }
+    }
+
+    void FileTreeFile::remove(int index) {
+        ;
+    }
   }
 }

@@ -4,11 +4,13 @@
 #include <QItemSelectionModel>
 #include <QDebug>
 #include <QObject>
+#include <QTreeWidgetItem>
 MainWindow::MainWindow(const QString &executable, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), git{executable}, logView{git}, fileViewModel{git} {
   ui->setupUi(this);
-  ui->fileView->setModel(&fileViewModel);
+  fileViewModel.assignTreeView(ui->fileView);
   git.setWorkingDirectory("/home/data/projects/C++/Qt/Git-Z/testingRepository");
+
 
   logView.setModal(true);
 

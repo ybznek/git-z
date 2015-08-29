@@ -8,13 +8,23 @@ namespace gitz {
   namespace widget {
     using namespace ::gitz;
 
-    struct FileTreeItem {
+    class FileTreeItem {
+    public:
       virtual FileTreeItem *parent() const = 0;
       virtual int count() const = 0;
       virtual const FileTreeItem *at(int index) const = 0;
-      virtual int row() const;
+      virtual FileTreeItem *at(int index) = 0;
       template <class C> inline C *cast() { return dynamic_cast<C *>(this); }
       template <class C> inline bool is() { return (cast<C>() != nullptr); }
+
+      virtual void remove(int index) = 0;
+
+      int row() const;
+      void setRow(int row);
+      void updateRows();
+
+    protected:
+      int _row;
     };
   }
 }

@@ -14,160 +14,122 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPlainTextEdit" name="logView">
-    <property name="geometry">
-     <rect>
-      <x>335</x>
-      <y>280</y>
-      <width>319</width>
-      <height>51</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="commitButton">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>41</y>
-      <width>85</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Commit</string>
-    </property>
-   </widget>
-   <widget class="QColumnView" name="branchView">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>320</width>
-      <height>121</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QColumnView" name="indexView">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>320</width>
-      <height>121</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="commitMessage">
-    <property name="geometry">
-     <rect>
-      <x>335</x>
-      <y>41</y>
-      <width>112</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Enter commit message and press enter</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="refreshButton">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>85</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Get list</string>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="logViewButton">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>40</y>
-      <width>85</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Log</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>0</y>
-      <width>320</width>
-      <height>52</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="text">
-     <string>Rebase</string>
-    </property>
-    <property name="icon">
-     <iconset theme="edit-redo"/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>64</width>
-      <height>64</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="newBranchEdit">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>260</y>
-      <width>112</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Normal</enum>
-    </property>
-    <property name="placeholderText">
-     <string>enter name of new branch and press enter</string>
-    </property>
-   </widget>
-   <widget class="QTreeView" name="fileView">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>80</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="refreshButton">
+      <property name="text">
+       <string>Get list</string>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4" rowspan="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>Rebase</string>
+      </property>
+      <property name="icon">
+       <iconset theme="edit-redo">
+        <normaloff/>
+       </iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>64</width>
+        <height>64</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" rowspan="2">
+     <widget class="QPushButton" name="logViewButton">
+      <property name="text">
+       <string>Log</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="commitButton">
+      <property name="text">
+       <string>Commit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3" colspan="2">
+     <widget class="QLineEdit" name="commitMessage">
+      <property name="placeholderText">
+       <string>Enter commit message and press enter</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QColumnView" name="branchView"/>
+    </item>
+    <item row="3" column="4" rowspan="2">
+     <widget class="QTreeView" name="fileView">
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+      <property name="textElideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerItem</enum>
+      </property>
+      <property name="autoExpandDelay">
+       <number>-1</number>
+      </property>
+      <property name="indentation">
+       <number>16</number>
+      </property>
+      <property name="uniformRowHeights">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" rowspan="3" colspan="4">
+     <widget class="QColumnView" name="indexView"/>
+    </item>
+    <item row="5" column="2" rowspan="2" colspan="3">
+     <widget class="QLineEdit" name="newBranchEdit">
+      <property name="echoMode">
+       <enum>QLineEdit::Normal</enum>
+      </property>
+      <property name="placeholderText">
+       <string>enter name of new branch and press enter</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="3" colspan="2">
+     <widget class="QPlainTextEdit" name="logView"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

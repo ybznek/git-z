@@ -10,6 +10,7 @@ namespace gitz {
         if (f.gitFile == file) {
           if (f.gitFile.getState() != file.getState()) {
             f.gitFile.setState(file.getState());
+            f.setValid(true);
             return true;
           }
           return false;
@@ -18,6 +19,10 @@ namespace gitz {
 
       files.append(FileTreeFile{this, file});
       return true;
+    }
+
+    void FileTreeFolder::remove(int index) {
+        files.removeAt(index);
     }
 
     bool FileTreeFolder::operator==(const FileTreeFolder &f) { return this->path == f.path; }
@@ -29,6 +34,13 @@ namespace gitz {
         return nullptr;
       }
       return &(files.at(index));
+    }
+
+    FileTreeItem *FileTreeFolder::at(int index) {
+      if (index >= files.size()) {
+        return nullptr;
+      }
+      return &(files[index]);
     }
 
     int FileTreeFolder::count() const { return files.size(); }

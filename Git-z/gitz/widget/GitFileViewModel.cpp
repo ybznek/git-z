@@ -1,5 +1,6 @@
 #include "GitFileViewModel.hpp"
 #include <QModelIndex>
+#include <QFont>
 widget::GitFileViewModel::GitFileViewModel(Git &git) : git{git} {
   QObject::connect(&git, SIGNAL(onStatusUpdated()), this, SLOT(fileListUpdated()));
 }
@@ -38,6 +39,11 @@ QModelIndex widget::GitFileViewModel::parent(const QModelIndex &index) const {
   return createIndex(parentItem->row(), 0, parentItem);
 }
 
+void widget::GitFileViewModel::assignTreeView(QTreeView *treeView) {
+  this->treeView = treeView;
+  treeView->setModel(this);
+}
+
 
 int widget::GitFileViewModel::rowCount(const QModelIndex &parent) const {
   if (!parent.isValid()) {
@@ -63,8 +69,14 @@ int widget::GitFileViewModel::columnCount(const QModelIndex &parent) const {
 
 QVariant widget::GitFileViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    return "a";
-
+    switch (section) {
+    case FILENAME_COLUMN:
+      return "Filename";
+    case STATE_COLUMN:
+      return "State";
+    default:
+      Q_UNREACHABLE();
+    }
   return QVariant();
 }
 
@@ -78,7 +90,7 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
 
   for (FileTreeFile *file = ptr->cast<FileTreeFile>(); file != nullptr;) {
 
-    if (index.column() == 0) {
+    if (index.column() == FILENAME_COLUMN) {
       switch (role) {
       case Qt::DecorationRole:
         return iconFactory.getIcon(file->getStatus());
@@ -96,27 +108,60 @@ QVariant widget::GitFileViewModel::data(const QModelIndex &index, int role) cons
     }
   }
 
-  if (role != Qt::DisplayRole)
-    return QVariant();
 
   for (FileTreeFolder *folder = ptr->cast<FileTreeFolder>(); folder != nullptr;) {
-    if (index.column() == 0) {
+
+    if (index.column() == FOLDER_COLUMN) {
       switch (role) {
+      case Qt::DisplayRole:
+        return folder->getPath();
+
       case Qt::DecorationRole:
         qDebug() << "decoration";
         return iconFactory.getFolderIcon();
-      case Qt::DisplayRole:
-        return folder->getPath();
+
+      case Qt::FontRole:
+        QFont boldFont;
+        boldFont.setBold(true);
+        //          boldFont.setWeight(QFont::Weight::Black);
+        qDebug() << "font";
+        return boldFont;
       }
-    } else {
-      return QVariant();
     }
+
+
+    return QVariant();
   }
 
-  for (FileTreeRoot *root = ptr->cast<FileTreeRoot>(); root != nullptr;) {
-    return "root";
+  /*
+
+    for (FileTreeRoot *root = ptr->cast<FileTreeRoot>(); root != nullptr;) {
+        if (role == Qt::DisplayRole)
+      return "root";
+    }*/
+  return QVariant();
+}
+
+void widget::GitFileViewModel::deleteOld() {
+  int folderCount = root.count();
+  for (int i = 0; i < folderCount; ++i) {
+
+    FileTreeFolder *folder = static_cast<FileTreeFolder*>(root.at(i));
+    int filesCount = folder->count();
+    for (int j = 0; j < filesCount; ++j) {
+        FileTreeFile* file = static_cast<FileTreeFile*>(folder->at(j));
+        qDebug() << file->gitFile.getFilepath();
+        if (!file->isValid()) {
+            folder->remove(i);
+            --filesCount;
+            changed = true;
+       }
+    }
+    if (folder->count() == 0) {
+        root.remove(i);
+        --folderCount;
+    }
   }
-  Q_UNREACHABLE();
 }
 
 
@@ -124,7 +169,7 @@ void widget::GitFileViewModel::fileListUpdated() {
   qDebug() << "file list";
   LockHolder<const GitFileList> fileList = git.getFileList();
   invalidate();
-  changed = true;
+  changed = false;
   for (const GitFile &file : fileList) {
     QString path = file.getPath();
     FileTreeFolder &folder = root.getFolder(path);
@@ -132,24 +177,22 @@ void widget::GitFileViewModel::fileListUpdated() {
       changed = true;
     }
   }
-  qDebug() << root.count();
-  for (FileTreeFolder &folder : root) {
-    qDebug() << "path" << folder.path << folder.count();
-    for (FileTreeFile &file : folder.files) {
-      qDebug() << "." << file.gitFile.getFilename() << file.count();
-    }
+   deleteOld();
+
+  if (changed) {
+    root.updateRows();
+    emit dataChanged(index(0, 0), index(0, root.count() - 1));
+
+    emit treeView->expandAll();
+    treeView->resizeColumnToContents(0);
   }
-  //        if (changed){
-  emit dataChanged(index(0, 0), index(0, root.count() - 1));
-  //      }
 }
 
 
 void widget::GitFileViewModel::invalidate() {
   for (FileTreeFolder &folder : root) {
-    folder.valid = false;
     for (FileTreeFile &file : folder.files) {
-      file.valid = false;
+      file.setValid(false);
     }
   }
 }

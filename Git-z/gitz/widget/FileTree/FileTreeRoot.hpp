@@ -10,6 +10,8 @@ namespace gitz {
       FileTreeItem *parent() const override;
       int count() const override;
       const FileTreeItem *at(int index) const override;
+      FileTreeItem *at(int index) override;
+      void remove(int index) override;
       FileTreeFolder &getFolder(const QString &path);
     };
   }

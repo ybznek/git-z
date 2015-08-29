@@ -14,15 +14,15 @@ namespace gitz {
       FileTreeFolder(FileTreeItem *parent, const QString &path);
 
       bool addFile(const GitFile &file);
-
+        void remove(int index) override;
       bool operator==(const FileTreeFolder &f);
       FileTreeItem *parent() const override;
       const FileTreeItem *at(int index) const;
+      FileTreeItem *at(int index);
       int count() const override;
       const QString &getPath() const;
       FileTreeItem *parentItem;
       QString path;
-      bool valid;
       FileList files;
     };
   }
