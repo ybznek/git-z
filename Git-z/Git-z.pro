@@ -45,7 +45,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     gitz/widget/FileIconFactory.cpp \
-    gitz/widget/GitLogModel.cpp
+    gitz/widget/GitLogModel.cpp \
+    gitz/CommitDetail.cpp
 
 
 
@@ -87,7 +88,8 @@ HEADERS  += \
     gitz/widget/GitFileViewModel.hpp \
     gitz/widget/GraphViewWidget.hpp \
     gitz/widget/FileIconFactory.hpp \
-    gitz/widget/GitLogModel.hpp
+    gitz/widget/GitLogModel.hpp \
+    gitz/CommitDetail.hpp
 
 
 FORMS    += mainwindow.ui
