@@ -34,6 +34,7 @@ protected slots:
   void renameCurrentBranch(QModelIndex, QModelIndex, QVector<int>);
   void newBranch();
   void onRebase();
+  void onSelectionChanged(const QItemSelection &select) { qDebug() << ""; }
 
 private:
   Ui::MainWindow *ui = nullptr;

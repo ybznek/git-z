@@ -35,7 +35,9 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
   QObject::connect(ui->commitMessage, SIGNAL(returnPressed()), this, SLOT(onCommit()));
 
-
+  QObject::connect(ui->logTableView->selectionModel(),
+                   SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+                   SLOT(onSelectionChanged(QItemSelection)));
   // logview
   //  emit ui->logViewButton->click();
 
