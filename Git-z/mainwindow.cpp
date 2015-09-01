@@ -35,8 +35,6 @@ MainWindow::MainWindow(const QString &executable, QWidget *parent)
 
   QObject::connect(ui->commitMessage, SIGNAL(returnPressed()), this, SLOT(onCommit()));
 
-  QObject::connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(onRebase()));
-
 
   // logview
   //  emit ui->logViewButton->click();
@@ -81,8 +79,8 @@ void MainWindow::onCommit() {
     files << fileList.at(index).getFilename();
   }
 
-  QLineEdit *edit = ui->commitMessage;
-  git.commit(edit->text(), files);
+  QPlainTextEdit *edit = ui->commitMessage;
+  git.commit(edit->toPlainText(), files);
   edit->clear();
 }
 
